@@ -102,6 +102,7 @@ def evaluate_model(netparams: NetParams,
                    train_loss_array,
                    epoch,
                    no_improvement):
+    print('Evaluation')
     netparams.model.eval()
     for batch_i, (data, target) in enumerate(netparams.validation_loader):
 
@@ -118,7 +119,7 @@ def evaluate_model(netparams: NetParams,
 
     # print training/validation statistics
     print(
-        f'\nEvaluation\nEpoch: {epoch + 1}/{netparams.n_epochs} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
+        f'\nEpoch: {epoch}/{netparams.n_epochs} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
     train_loss_array.append(train_loss)
     valid_loss_array.append(valid_loss)
     # save model if validation loss has decreased
