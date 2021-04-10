@@ -44,14 +44,14 @@ def train_loop(netparams: NetParams, no_improvement=0):
         # evaluate the model #
         ######################
         eval_time = time.time()
-        valid_loss_min = evaluate_model(netparams=netparams,
-                                        train_loss=train_loss,
-                                        valid_loss=valid_loss,
-                                        valid_loss_min=valid_loss_min,
-                                        valid_loss_array=valid_loss_array,
-                                        train_loss_array=train_loss_array,
-                                        epoch=epoch,
-                                        no_improvement=no_improvement)
+        valid_loss_min, no_improvement = evaluate_model(netparams=netparams,
+                                                        train_loss=train_loss,
+                                                        valid_loss=valid_loss,
+                                                        valid_loss_min=valid_loss_min,
+                                                        valid_loss_array=valid_loss_array,
+                                                        train_loss_array=train_loss_array,
+                                                        epoch=epoch,
+                                                        no_improvement=no_improvement)
 
         eval_end_time = time.time() - eval_time
         print(
@@ -134,7 +134,7 @@ def evaluate_model(netparams: NetParams,
     else:
         no_improvement += 1
         print(colored(f'No improvement for {no_improvement} epochs', 'red'))
-    return valid_loss_min
+    return valid_loss_min, no_improvement
 
 
 def plot_loss(loss_name: str, loss_array: set):
