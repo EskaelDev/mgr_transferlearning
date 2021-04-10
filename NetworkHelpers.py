@@ -93,7 +93,7 @@ def train_model(netparams: NetParams,
             print(
                 f'Epoch {epoch}, Batch {batch_i + 1} loss: {(train_loss_tmp / 20):.16f}')
             train_loss_tmp = 0.0
-        return train_loss
+    return train_loss
 
 
 def evaluate_model(netparams: NetParams,
