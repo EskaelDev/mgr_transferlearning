@@ -22,46 +22,46 @@ class TrainedModels(Enum):
 
 def get_model(model: TrainedModels, class_num: int, train_on_gpu=False):
 
-    if(model=TrainedModels.resnet18):
+    if model == TrainedModels.resnet18:
         return get_resnet18(train_on_gpu, class_num)
 
-    if(model=TrainedModels.alexnet):
+    if model == TrainedModels.alexnet:
         return get_alexnet(train_on_gpu, class_num)
 
-    if(model=TrainedModels.squeezenet1_0):
+    if model == TrainedModels.squeezenet1_0:
         return get_squeezenet1_0(train_on_gpu, class_num)
 
-    if(model=TrainedModels.vgg16):
+    if model == TrainedModels.vgg16:
         return get_vgg16(train_on_gpu, class_num)
 
-    if(model=TrainedModels.densenet161):
+    if model == TrainedModels.densenet161:
         return get_densenet161(train_on_gpu, class_num)
 
-    if(model=TrainedModels.inception_v3):
+    if model == TrainedModels.inception_v3:
         return get_inception_v3(train_on_gpu, class_num)
 
-    if(model=TrainedModels.googlenet):
+    if model == TrainedModels.googlenet:
         return get_googlenet(train_on_gpu, class_num)
 
-    if(model=TrainedModels.shufflenet_v2_x1_0):
+    if model == TrainedModels.shufflenet_v2_x1_0:
         return get_shufflenet_v2_x1_0(train_on_gpu, class_num)
 
-    if(model=TrainedModels.mobilenet_v2):
+    if model == TrainedModels.mobilenet_v2:
         return get_mobilenet_v2(train_on_gpu, class_num)
 
-    if(model=TrainedModels.mobilenet_v3_large):
+    if model == TrainedModels.mobilenet_v3_large:
         return get_mobilenet_v3_large(train_on_gpu, class_num)
 
-    if(model=TrainedModels.mobilenet_v3_small):
+    if model == TrainedModels.mobilenet_v3_small:
         return get_mobilenet_v3_small(train_on_gpu, class_num)
 
-    if(model=TrainedModels.resnext50_32x4d):
+    if model == TrainedModels.resnext50_32x4d:
         return get_resnext50_32x4d(train_on_gpu, class_num)
 
-    if(model=TrainedModels.wide_resnet50_2):
+    if model == TrainedModels.wide_resnet50_2:
         return get_wide_resnet50_2(train_on_gpu, class_num)
 
-    if(model=TrainedModels.mnasnet1_0):
+    if model == TrainedModels.mnasnet1_0:
         return get_mnasnet1_0(train_on_gpu, class_num)
 
 
