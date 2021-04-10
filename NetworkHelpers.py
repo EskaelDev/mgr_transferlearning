@@ -140,12 +140,11 @@ def plot_loss(loss_name: str, loss_array: set):
     plt.show()
 
 
-def test_model(netparams: NetParams):
+def test_model(netparams: NetParams, working_ds: DatasetModel):
     # track test loss
-    # over 5 flower classes
     test_loss = 0.0
-    class_correct = list(0. for i in range(len(netparams.classes)))
-    class_total = list(0. for i in range(len(netparams.classes)))
+    class_correct = list(0. for i in range(len(working_ds.classes)))
+    class_total = list(0. for i in range(len(working_ds.classes)))
 
     netparams.model.eval()  # eval mode
     if train_on_gpu:
