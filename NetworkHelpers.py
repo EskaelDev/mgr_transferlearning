@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from netparams import NetParams
 import torch
+from datasetmodel import DatasetModel
 
 
 def train_loop(netparams: NetParams, no_improvement=0):
