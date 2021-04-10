@@ -171,7 +171,7 @@ def test_model(netparams: NetParams):
         np.sum(class_correct), np.sum(class_total)))
 
 
-def plot_test_results(netparams: NetParams, datasetmodel: DatasetModel):
+def plot_test_results(netparams: NetParams, working_ds: DatasetModel):
     # obtain one batch of test images
     dataiter = iter(netparams.test_loader)
     images, labels = dataiter.next()
@@ -190,5 +190,5 @@ def plot_test_results(netparams: NetParams, datasetmodel: DatasetModel):
         ax = fig.add_subplot(2, netparams.batch_size / 2,
                              idx + 1, xticks=[], yticks=[])
         plt.imshow(np.transpose(images[idx], (1, 2, 0)))
-        ax.set_title("{}\n({})".format(datasetmodel.classes[preds[idx]], datasetmodel.classes[labels[idx]]),
+        ax.set_title("{}\n({})".format(working_ds.classes[preds[idx]], working_ds.classes[labels[idx]]),
                      color=("green" if preds[idx] == labels[idx].item() else "red"))
