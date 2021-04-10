@@ -38,7 +38,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
                     epoch=epoch)
 
         train_end_time = time.time() - train_time
-        print(f"Training epoch {epoch} took {train_end_time:.2f} seconds")
+        print(f"⌛Training epoch {epoch} took {train_end_time:.2f} seconds")
         train_time_sum += train_end_time
         ######################
         # evaluate the model #
@@ -54,7 +54,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
                        no_improvement=no_improvement)
 
         eval_end_time = time.time() - eval_time
-        print(f"Evaluating epoch {epoch} took {(eval_end_time):.2f} seconds\n")
+        print(f"⌛Evaluating epoch {epoch} took {(eval_end_time):.2f} seconds\n")
         eval_time_sum += eval_end_time
 
     end_time = time.time()
@@ -124,7 +124,7 @@ def evaluate_model(netparams: NetParams,
     # save model if validation loss has decreased
     if valid_loss <= valid_loss_min:
         print(colored(
-            f'⌛ Validation loss decreased ({valid_loss_min:.6f} --> {valid_loss:.6f}).  Saving model ...'), 'green')
+            f'Validation loss decreased ({valid_loss_min:.6f} --> {valid_loss:.6f}).  Saving model ...', 'green'))
         torch.save(netparams.model.state_dict(), f'{epoch:03d}model_cifar.pt')
         valid_loss_min = valid_loss
         no_improvement = 0
