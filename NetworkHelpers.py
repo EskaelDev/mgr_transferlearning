@@ -1,8 +1,9 @@
-import NetParams
+import matplotlib.pyplot as plt
+from netparams import NetParams
+import torch
 
 
-def train_loop(netparams: NetParams
-               no_improvement):
+def train_loop(netparams: NetParams, no_improvement=0):
 
     valid_loss_min = np.Inf
     train_loss_array = []
@@ -35,7 +36,10 @@ def train_loop(netparams: NetParams
                        valid_loss_min=valid_loss_min,
                        valid_loss_array=valid_loss_array,
                        train_loss_array=train_loss_array,
-                       epoch=epoch)
+                       epoch=epoch,
+                       no_improvement=no_improvement)
+
+    return train_loss_array, valid_loss_array
 
 
 def train_model(netparams: NetParams,
@@ -73,7 +77,8 @@ def evaluate_model(netparams: NetParams,
                    valid_loss_min,
                    valid_loss_array,
                    train_loss_array,
-                   epoch):
+                   epoch,
+                   no_improvement):
     netparams.model.eval()
     for batch_i, (data, target) in enumerate(netparams.validation_loader):
 
@@ -164,3 +169,26 @@ def test_model(netparams: NetParams):
     print('\nTest Accuracy (Overall): %2d%% (%2d/%2d)' % (
         100. * np.sum(class_correct) / np.sum(class_total),
         np.sum(class_correct), np.sum(class_total)))
+
+
+def plot_test_results(netparams: NetParams, datasetmodel: DatasetModel):
+    # obtain one batch of test images
+    dataiter = iter(netparams.test_loader)
+    images, labels = dataiter.next()
+    images.numpy()
+
+    netparams.model.cpu()
+    # get sample outputs
+    output = netparams.model(images)
+    # convert output probabilities to predicted class
+    _, preds_tensor = torch.max(output, 1)
+    preds = np.squeeze(preds_tensor.cpu().numpy())
+
+    # plot the images in the batch, along with predicted and true labels
+    fig = plt.figure(figsize=(40, 5))
+    for idx in np.arange(batch_size):
+        ax = fig.add_subplot(2, netparams.batch_size / 2,
+                             idx + 1, xticks=[], yticks=[])
+        plt.imshow(np.transpose(images[idx], (1, 2, 0)))
+        ax.set_title("{}\n({})".format(datasetmodel.classes[preds[idx]], datasetmodel.classes[labels[idx]]),
+                     color=("green" if preds[idx] == labels[idx].item() else "red"))
