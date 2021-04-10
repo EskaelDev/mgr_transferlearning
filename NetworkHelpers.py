@@ -144,15 +144,15 @@ def plot_loss(loss_name: str, loss_array: set):
 def test_model(netparams: NetParams, working_ds: DatasetModel):
     # track test loss
     test_loss = 0.0
-    class_correct = list(0. for i in range(len(working_ds.classes)))
-    class_total = list(0. for i in range(len(working_ds.classes)))
+    class_correct = list(0. for i in range(working_ds.class_num))
+    class_total = list(0. for i in range(working_ds.class_num))
 
     netparams.model.eval()  # eval mode
-    if train_on_gpu:
+    if netparams.train_on_gpu:
         netparams.model.cuda()
 
     # iterate over test data
-    for data, target in test_loader:
+    for data, target in netparams.test_loader:
 
         if len(target.data) < netparams.batch_size:
             break
@@ -169,7 +169,7 @@ def test_model(netparams: NetParams, working_ds: DatasetModel):
         _, pred = torch.max(output, 1)
         # compare predictions to true label
         correct_tensor = pred.eq(target.data.view_as(pred))
-        correct = np.squeeze(correct_tensor.numpy()) if not train_on_gpu else np.squeeze(
+        correct = np.squeeze(correct_tensor.numpy()) if not netparams.train_on_gpu else np.squeeze(
             correct_tensor.cpu().numpy())
         # calculate test accuracy for each object class
         for i in range(netparams.batch_size):
@@ -178,10 +178,10 @@ def test_model(netparams: NetParams, working_ds: DatasetModel):
             class_total[label] += 1
 
     # calculate avg test loss
-    test_loss = test_loss / len(test_loader.dataset)
+    test_loss = test_loss / len(netparams.test_loader.dataset)
     print('Test Loss: {:.6f}\n'.format(test_loss))
 
-    for i in range(len(class_total)):
+    for i in range(working_ds.class_num):
         if class_total[i] > 0:
             print('Test Accuracy of %5s: %2d%% (%2d/%2d)' % (
                 classes[i], 100 * class_correct[i] / class_total[i],
