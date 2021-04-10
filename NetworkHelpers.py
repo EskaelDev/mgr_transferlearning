@@ -3,13 +3,16 @@ from netparams import NetParams
 import torch
 from datasetmodel import DatasetModel
 import numpy as np
-
+import time
 
 def train_loop(netparams: NetParams, no_improvement=0):
 
+    start_time = time.time()
     valid_loss_min = np.Inf
     train_loss_array = []
     valid_loss_array = []
+    train_time_sum = 0
+    eval_time_sum = 0
 
     for epoch in range(1, netparams.n_epochs + 1):
 
@@ -25,13 +28,20 @@ def train_loop(netparams: NetParams, no_improvement=0):
         ###################
         # train the model #
         ###################
+        train_time = time.time()
+        
         train_model(netparams=netparams,
                     train_loss_tmp=train_loss_tmp,
                     train_loss=train_loss,
                     epoch=epoch)
+
+        train_end_time = train_time - time.time()
+        print(f"Training epoch {epoch} took {train_end_time:.2f} seconds")
+        train_time_sum += train_end_time
         ######################
         # evaluate the model #
         ######################
+        eval_time = time.time()
         evaluate_model(netparams=netparams,
                        train_loss=train_loss,
                        valid_loss=valid_loss,
@@ -41,6 +51,14 @@ def train_loop(netparams: NetParams, no_improvement=0):
                        epoch=epoch,
                        no_improvement=no_improvement)
 
+        eval_end_time = eval_time - time.time()
+        print(f"Evaluating epoch {epoch} took {(eval_time - time.time()):.2f} seconds")
+        eval_time_sum += eval_end_time
+
+    end = time.time()
+    print(f"🎓Total learning took {(end - start):.2f} seconds")
+    print(f"🏋️‍♂️Training took {train_time_sum:.2f} seconds")
+    print(f"📑Evaluation took {eval_time_sum:.2f} seconds")
     return train_loss_array, valid_loss_array
 
 
