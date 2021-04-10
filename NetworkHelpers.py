@@ -69,7 +69,7 @@ def train_model(netparams: NetParams,
 
         if batch_i % 20 == 19:    # print training loss every specified number of mini-batches
             print(
-                f'Epoch {epoch}, Batch {batch_i + 1}/{netparams.batch_size} loss: {(train_loss_tmp / 20):.16f}')
+                f'Epoch {epoch}, Batch {batch_i + 1} loss: {(train_loss_tmp / 20):.16f}')
             train_loss_tmp = 0.0
 
 
@@ -97,14 +97,14 @@ def evaluate_model(netparams: NetParams,
 
     # print training/validation statistics
     print(
-        f'Evaluation\nEpoch: {epoch + 1}/{netparams.n_epochs+1} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
+        f'\nEvaluation\nEpoch: {epoch + 1}/{netparams.n_epochs+1} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
     train_loss_array.append(train_loss)
     valid_loss_array.append(valid_loss)
     # save model if validation loss has decreased
     if valid_loss <= valid_loss_min:
         print(
-            f'⌛ Validation loss decreased ({valid_loss_min:.6f} --> {valid_loss:.6f}).  Saving model ...')
-        torch.save(model.state_dict(), f'{epoch:03d}model_cifar.pt')
+            f'⌛ Validation loss decreased ({valid_loss_min:.6f} --> {valid_loss:.6f}).  Saving model ...\n')
+        torch.save(netparams.model.state_dict(), f'{epoch:03d}model_cifar.pt')
         valid_loss_min = valid_loss
         no_improvement = 0
     else:
