@@ -30,7 +30,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
         ######################
         # evaluate the model #
         ######################
-        evaluate_model(netparams=netparams
+        evaluate_model(netparams=netparams,
                        train_loss=train_loss,
                        valid_loss=valid_loss,
                        valid_loss_min=valid_loss_min,
@@ -73,7 +73,7 @@ def train_model(netparams: NetParams,
 
 def evaluate_model(netparams: NetParams,
                    train_loss,
-                   valid_loss
+                   valid_loss,
                    valid_loss_min,
                    valid_loss_array,
                    train_loss_array,
