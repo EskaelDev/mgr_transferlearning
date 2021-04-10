@@ -82,7 +82,7 @@ def get_squeezenet1_0(train_on_gpu, class_num):
 
 def get_vgg16(train_on_gpu, class_num):
     model = models.vgg16(pretrained=True)
-    for param in model.features.parameters(train_on_gpu, class_num):
+    for param in model.features.parameters():
         param.requires_grad = False
 
     n_inputs = model.classifier[6].in_features
