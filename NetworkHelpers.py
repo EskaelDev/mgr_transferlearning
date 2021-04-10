@@ -32,10 +32,10 @@ def train_loop(netparams: NetParams, no_improvement=0):
         ###################
         train_time = time.time()
 
-        train_model(netparams=netparams,
-                    train_loss_tmp=train_loss_tmp,
-                    train_loss=train_loss,
-                    epoch=epoch)
+        train_loss = train_model(netparams=netparams,
+                                 train_loss_tmp=train_loss_tmp,
+                                 train_loss=train_loss,
+                                 epoch=epoch)
 
         train_end_time = time.time() - train_time
         print(f"⌛Training epoch {epoch} took {train_end_time:.2f} seconds")
@@ -54,7 +54,8 @@ def train_loop(netparams: NetParams, no_improvement=0):
                        no_improvement=no_improvement)
 
         eval_end_time = time.time() - eval_time
-        print(f"⌛Evaluating epoch {epoch} took {(eval_end_time):.2f} seconds\n")
+        print(
+            f"⌛Evaluating epoch {epoch} took {(eval_end_time):.2f} seconds\n")
         eval_time_sum += eval_end_time
 
     end_time = time.time()
@@ -92,6 +93,7 @@ def train_model(netparams: NetParams,
             print(
                 f'Epoch {epoch}, Batch {batch_i + 1} loss: {(train_loss_tmp / 20):.16f}')
             train_loss_tmp = 0.0
+        return train_loss
 
 
 def evaluate_model(netparams: NetParams,
