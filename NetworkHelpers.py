@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from netparams import NetParams
 import torch
 from datasetmodel import DatasetModel
+import numpy as np
 
 
 def train_loop(netparams: NetParams, no_improvement=0):
@@ -55,7 +56,7 @@ def train_model(netparams: NetParams,
         # clear the gradients of all optimized variables
         netparams.optimizer.zero_grad()
         # forward pass: compute predicted outputs by passing inputs to the model
-        netparams.output = netparams.model(data)
+        output = netparams.model(data)
         # calculate the batch loss
         loss = netparams.criterion(output, target)
         # backward pass: compute gradient of the loss with respect to model parameters
