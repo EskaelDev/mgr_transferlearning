@@ -38,7 +38,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
                                  epoch=epoch)
 
         train_end_time = time.time() - train_time
-        print(f"⌛Training epoch {epoch} took {train_end_time:.2f} seconds")
+        print(f"⌛Training epoch {epoch} took {train_end_time:.2f} seconds\n")
         train_time_sum += train_end_time
         ######################
         # evaluate the model #
@@ -121,7 +121,7 @@ def evaluate_model(netparams: NetParams,
 
     # print training/validation statistics
     print(
-        f'\nEpoch: {epoch}/{netparams.n_epochs} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
+        f'Epoch: {epoch}/{netparams.n_epochs} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
     train_loss_array.append(train_loss)
     valid_loss_array.append(valid_loss)
     # save model if validation loss has decreased
@@ -212,8 +212,8 @@ def plot_test_results(netparams: NetParams, working_ds: DatasetModel):
     preds = np.squeeze(preds_tensor.cpu().numpy())
 
     # plot the images in the batch, along with predicted and true labels
-    fig = plt.figure(figsize=(40, 5))
-    for idx in np.arange(batch_size):
+    fig = plt.figure(figsize=(30, 6))
+    for idx in np.arange(netparams.batch_size):
         ax = fig.add_subplot(2, netparams.batch_size / 2,
                              idx + 1, xticks=[], yticks=[])
         plt.imshow(np.transpose(images[idx], (1, 2, 0)))
