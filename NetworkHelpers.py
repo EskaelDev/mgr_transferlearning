@@ -61,7 +61,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
         if no_improvement <= 0:
             print(colored('Last improvement', 'blue'))
             print(colored(f'Training took: {train_time_sum:.2f}', 'blue'))
-            print(colored(f'Evaluation took: {train_time_sum:.2f}', 'blue'))
+            print(colored(f'Evaluation took: {train_time_sum:.2f}\n', 'blue'))
 
     end_time = time.time()
     print(f"🎓Total learning took {(end_time - start_time):.2f} seconds")
