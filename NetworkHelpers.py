@@ -30,6 +30,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
         ###################
         # train the model #
         ###################
+
         train_time = time.time()
 
         train_loss = train_model(netparams=netparams,
@@ -57,6 +58,10 @@ def train_loop(netparams: NetParams, no_improvement=0):
         print(
             f"⌛Evaluating epoch {epoch} took {(eval_end_time):.2f} seconds\n")
         eval_time_sum += eval_end_time
+        if no_improvement <= 0:
+            print(colored('Last improvement', 'blue'))
+            print(colored(f'Training took: {train_time_sum:.2f}', 'blue'))
+            print(colored(f'Evaluation took: {train_time_sum:.2f}', 'blue'))
 
     end_time = time.time()
     print(f"🎓Total learning took {(end_time - start_time):.2f} seconds")
