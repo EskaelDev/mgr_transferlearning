@@ -217,8 +217,8 @@ def get_mnasnet1_0(class_num):
     model = models.mnasnet1_0(pretrained=True)
     set_parameter_requires_grad(model)
 
-    n_inputs = model.classifier[3].in_features
-    model.classifier[3] = nn.Linear(n_inputs, class_num)
+    n_inputs = model.classifier[1].in_features
+    model.classifier[1] = nn.Linear(n_inputs, class_num)
 
     return model, 224
 
