@@ -131,7 +131,7 @@ def get_densenet161(class_num):
 
 
 def get_inception_v3(class_num):
-    model = models.inception_v3(pretrained=use_pretrained)
+    model = models.inception_v3(pretrained=True)
     set_parameter_requires_grad(model)
 
     n_inputs = model.AuxLogits.fc.in_features
