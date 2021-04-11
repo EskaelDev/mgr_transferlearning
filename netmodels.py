@@ -125,7 +125,7 @@ def get_densenet161(class_num):
     set_parameter_requires_grad(model)
 
     n_inputs = model.classifier.in_features
-    model.classifier = nn.Linear(n_inputs, num_classes)
+    model.classifier = nn.Linear(n_inputs, class_num)
 
     return model, 224
 
@@ -135,10 +135,10 @@ def get_inception_v3(class_num):
     set_parameter_requires_grad(model)
 
     n_inputs = model.AuxLogits.fc.in_features
-    model.AuxLogits.fc = nn.Linear(n_inputs, num_classes)
+    model.AuxLogits.fc = nn.Linear(n_inputs, class_num)
 
     n_inputs = model.fc.in_features
-    model.fc = nn.Linear(n_inputs, num_classes)
+    model.fc = nn.Linear(n_inputs, class_num)
 
     return model, 299
 
