@@ -134,8 +134,8 @@ def get_inception_v3(class_num):
     model = models.inception_v3(pretrained=True, aux_logits=False)
     set_parameter_requires_grad(model)
 
-    n_inputs = model.AuxLogits.fc.in_features
-    model.AuxLogits.fc = nn.Linear(n_inputs, class_num)
+    # n_inputs = model.AuxLogits.fc.in_features
+    # model.AuxLogits.fc = nn.Linear(n_inputs, class_num)
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
