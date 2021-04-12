@@ -102,7 +102,9 @@ def train_model(netparams: NetParams,
         # update training loss
         train_loss_tmp += loss.item()
         train_loss += loss.item() * data.size(0)
-        correct_outputs += torch.sum(output == target.data)
+        
+        if output.shape == target.data.shape:
+            correct_outputs += torch.sum(output == target.data)
 
         if batch_i % 20 == 19:    # print training loss every specified number of mini-batches
             print(
@@ -133,7 +135,9 @@ def evaluate_model(netparams: NetParams,
         output = netparams.model(data)
         loss = netparams.criterion(output, target)
         valid_loss += loss.item() * data.size(0)
-        correct_outputs += torch.sum(output == target.data)
+
+        if output.shape == target.data.shape:
+            correct_outputs += torch.sum(output == target.data)
 
     train_loss = train_loss / len(netparams.train_loader.sampler)
     valid_loss = valid_loss / len(netparams.validation_loader.sampler)
