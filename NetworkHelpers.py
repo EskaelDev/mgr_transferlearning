@@ -165,7 +165,7 @@ def evaluate_model(netparams: NetParams,
 
 
 def plot_array(plot_name: str, array: set, best_epoch: int):
-    plt.plot(loss_array[:best_epoch])
+    plt.plot(array[:best_epoch])
     plt.ylabel(plot_name)
     plt.show()
 
