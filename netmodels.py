@@ -7,8 +7,8 @@ from cifar10_models.googlenet import googlenet as cifar_googlenet
 from cifar10_models.vgg import vgg11_bn as cifar_vgg11_bn, vgg13_bn as cifar_vgg13_bn, vgg16_bn as cifar_vgg16_bn, vgg19_bn as cifar_vgg19_bn
 from cifar10_models.resnet import resnet18 as cifar_resnet18, resnet34 as cifar_resnet34, resnet50 as cifar_resnet50
 from cifar10_models.resnet_orig import resnet_orig as cifar_resnet_orig
-from cifar10_models.mobilenet_v2 import mobilenet_v2 as cifar_mobilenet_v2
-from cifar10_models.inception_v3 import inception_v3 as cifar_inception_v3
+from cifar10_models.mobilenetv2 import mobilenet_v2 as cifar_mobilenet_v2
+from cifar10_models.inception import inception_v3 as cifar_inception_v3
 
 
 class AutoName(Enum):
