@@ -45,7 +45,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
         train_accuracy_array.append(train_acc)
 
         train_time_sum += train_end_time
-        
+
         ######################
         # evaluate the model #
         ######################
@@ -115,7 +115,7 @@ def train_model(netparams: NetParams,
                 f'Epoch {epoch}, Batch {batch_i + 1} loss: {(train_loss_tmp / 20):.6f}')
             train_loss_tmp = 0.0
 
-    epoch_acc = correct_outputs.double() / len(netparams.train_loader.dataset)
+    epoch_acc = float(correct_outputs) / len(netparams.train_loader.dataset)
     return train_loss, epoch_acc
 
 
@@ -145,7 +145,7 @@ def evaluate_model(netparams: NetParams,
 
     train_loss = train_loss / len(netparams.train_loader.sampler)
     valid_loss = valid_loss / len(netparams.validation_loader.sampler)
-    epoch_acc = correct_outputs.double() / len(netparams.validation_loader.dataset)
+    epoch_acc = float(correct_outputs) / len(netparams.validation_loader.dataset)
     # print training/validation statistics
     print(
         f'Epoch: {epoch}/{netparams.n_epochs} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
