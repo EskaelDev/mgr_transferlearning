@@ -2,7 +2,13 @@ import torch.nn as nn
 import torchvision.models as models
 from enum import Enum
 import torch.optim as optim
-from cifar10_models.vgg import densenet121 as cifar_densenet121, densenet169 as cifar_densenet169, densenet161 as cifar_densenet161, googlenet as cifar_googlenet, vgg11_bn as cifar_vgg11_bn, vgg13_bn as cifar_vgg13_bn, vgg16_bn as cifar_vgg16_bn, vgg19_bn as cifar_vgg19_bn, resnet18 as cifar_resnet18, resnet34 as cifar_resnet34, resnet50 as cifar_resnet50, resnet_orig as cifar_resnet_orig, mobilenet_v2 as cifar_mobilenet_v2, inception_v3 as cifar_inception_v3
+from cifar10_models.densenet import densenet121 as cifar_densenet121, densenet169 as cifar_densenet169, densenet161 as cifar_densenet161
+from cifar10_models.googlenet import googlenet as cifar_googlenet
+from cifar10_models.vgg import vgg11_bn as cifar_vgg11_bn, vgg13_bn as cifar_vgg13_bn, vgg16_bn as cifar_vgg16_bn, vgg19_bn as cifar_vgg19_bn
+from cifar10_models.resnet import resnet18 as cifar_resnet18, resnet34 as cifar_resnet34, resnet50 as cifar_resnet50
+from cifar10_models.resnet_orig import resnet_orig as cifar_resnet_orig
+from cifar10_models.mobilenet_v2 import mobilenet_v2 as cifar_mobilenet_v2
+from cifar10_models.inception_v3 import inception_v3 as cifar_inception_v3
 
 
 class AutoName(Enum):
@@ -13,7 +19,28 @@ class AutoName(Enum):
 class TrainedModels(AutoName):
     '''
     bn - bach normalization \n
-    https://pytorch.org/vision/stable/models.html#torchvision.models.alexnet
+https://pytorch.org/vision/stable/models.html#torchvision.models.alexnet \n
+__possible values__
+alexnet \n
+vgg11 \nvgg11_bn \nvgg13 \nvgg13_bn \nvgg16 \nvgg16_bn \nvgg19 \nvgg19_bn \n
+resnet18 \nresnet34 \nresnet50 \nresnet152 \n
+squeezenet1_0 \nsqueezenet1_1 \n
+densenet121 \ndensenet169 \ndensenet161 \ndensenet201 \n
+inception_v3 \n
+googlenet \n
+shufflenet_v2_x0_5 \nshufflenet_v2_x1_0 \nshufflenet_v2_x1_5 \nshufflenet_v2_x2_0 \n
+mobilenet_v2 \nmobilenet_v3_large \nmobilenet_v3_small \n
+resnext50_32x4d \nresnext101_32x8d \n
+wide_resnet50_2 \nwide_resnet101_2 \n
+mnasnet0_5 \nmnasnet0_75 \nmnasnet1_0 \nmnasnet1_3 \n
+cifar_densenet121 \ncifar_densenet169 \ncifar_densenet161 \n
+cifar_googlenet \n
+cifar_vgg11_bn \ncifar_vgg13_bn \ncifar_vgg16_bn \ncifar_vgg19_bn \n
+cifar_resnet18 \ncifar_resnet34 \ncifar_resnet50 \n
+cifar_resnet_orig \n
+cifar_mobilenet_v2 \n
+cifar_inception_v3 \n
+
     '''
 # region pytorch_models
     alexnet = auto()
