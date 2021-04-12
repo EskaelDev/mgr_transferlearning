@@ -13,8 +13,11 @@ def train_loop(netparams: NetParams, no_improvement=0):
     valid_loss_min = np.Inf
     train_loss_array = []
     valid_loss_array = []
+    train_accuracy_array = []
+    valid_accuracy_array = []
     train_time_sum = 0
     eval_time_sum = 0
+    best_epoch = 1
 
     for epoch in range(1, netparams.n_epochs + 1):
 
@@ -30,44 +33,49 @@ def train_loop(netparams: NetParams, no_improvement=0):
         ###################
         # train the model #
         ###################
-
         train_time = time.time()
-
-        train_loss = train_model(netparams=netparams,
-                                 train_loss_tmp=train_loss_tmp,
-                                 train_loss=train_loss,
-                                 epoch=epoch)
+        train_loss, train_acc = train_model(netparams=netparams,
+                                            train_loss_tmp=train_loss_tmp,
+                                            train_loss=train_loss,
+                                            epoch=epoch)
 
         train_end_time = time.time() - train_time
         print(f"⌛Training epoch {epoch} took {train_end_time:.2f} seconds\n")
+        train_accuracy_array.append(train_acc)
+
         train_time_sum += train_end_time
         ######################
         # evaluate the model #
         ######################
         eval_time = time.time()
-        valid_loss_min, no_improvement = evaluate_model(netparams=netparams,
-                                                        train_loss=train_loss,
-                                                        valid_loss=valid_loss,
-                                                        valid_loss_min=valid_loss_min,
-                                                        valid_loss_array=valid_loss_array,
-                                                        train_loss_array=train_loss_array,
-                                                        epoch=epoch,
-                                                        no_improvement=no_improvement)
+        valid_loss_min, no_improvement, valid_acc = evaluate_model(netparams=netparams,
+                                                                   train_loss=train_loss,
+                                                                   valid_loss=valid_loss,
+                                                                   valid_loss_min=valid_loss_min,
+                                                                   valid_loss_array=valid_loss_array,
+                                                                   train_loss_array=train_loss_array,
+                                                                   epoch=epoch,
+                                                                   no_improvement=no_improvement)
 
         eval_end_time = time.time() - eval_time
         print(
             f"⌛Evaluating epoch {epoch} took {(eval_end_time):.2f} seconds\n")
         eval_time_sum += eval_end_time
+
+        valid_accuracy_array.append(valid_acc)
+
         if no_improvement <= 0:
+            best_epoch = epoch - netparams.max_no_improve_epochs
             print(colored('Last improvement', 'blue'))
             print(colored(f'Training took: {train_time_sum:.2f}', 'blue'))
             print(colored(f'Evaluation took: {train_time_sum:.2f}\n', 'blue'))
 
     end_time = time.time()
-    print(f"🎓Total learning took {(end_time - start_time):.2f} seconds")
+    print(
+        f"🎓Total learning took {((end_time - start_time)/60):.0f}m {((end_time - start_time)%60):.0f}s")
     print(f"🏋️‍♂️Training took {train_time_sum:.2f} seconds")
     print(f"📑Evaluation took {eval_time_sum:.2f} seconds")
-    return train_loss_array, valid_loss_array
+    return train_loss_array, valid_loss_array, train_accuracy_array, valid_accuracy_array, best_epoch
 
 
 def train_model(netparams: NetParams,
@@ -76,6 +84,7 @@ def train_model(netparams: NetParams,
                 epoch):
     netparams.model.train()
     print("Training")
+    correct_outputs = 0
     for batch_i, (data, target) in enumerate(netparams.train_loader):
         # move tensors to GPU if CUDA is available
         if netparams.train_on_gpu:
@@ -93,12 +102,15 @@ def train_model(netparams: NetParams,
         # update training loss
         train_loss_tmp += loss.item()
         train_loss += loss.item() * data.size(0)
+        correct_outputs += torch.sum(output == target.data)
 
         if batch_i % 20 == 19:    # print training loss every specified number of mini-batches
             print(
-                f'Epoch {epoch}, Batch {batch_i + 1} loss: {(train_loss_tmp / 20):.16f}')
+                f'Epoch {epoch}, Batch {batch_i + 1} loss: {(train_loss_tmp / 20):.6f}')
             train_loss_tmp = 0.0
-    return train_loss
+
+    epoch_acc = correct_outputs.double() / len(netparams.train_loader.dataset)
+    return train_loss, epoch_acc
 
 
 def evaluate_model(netparams: NetParams,
@@ -110,6 +122,7 @@ def evaluate_model(netparams: NetParams,
                    epoch,
                    no_improvement):
     print('Evaluation')
+    correct_outputs = 0
     netparams.model.eval()
     for batch_i, (data, target) in enumerate(netparams.validation_loader):
 
@@ -117,13 +130,14 @@ def evaluate_model(netparams: NetParams,
         if netparams.train_on_gpu:
             data, target = data.cuda(), target.cuda()
 
-        y = netparams.model(data)
-        loss = netparams.criterion(y, target)
+        output = netparams.model(data)
+        loss = netparams.criterion(output, target)
         valid_loss += loss.item() * data.size(0)
+        correct_outputs += torch.sum(output == target.data)
 
     train_loss = train_loss / len(netparams.train_loader.sampler)
     valid_loss = valid_loss / len(netparams.validation_loader.sampler)
-
+    epoch_acc = correct_outputs.double() / len(netparams.validation_loader.dataset)
     # print training/validation statistics
     print(
         f'Epoch: {epoch}/{netparams.n_epochs} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
@@ -139,13 +153,13 @@ def evaluate_model(netparams: NetParams,
     else:
         no_improvement += 1
         print(colored(f'No improvement for {no_improvement} epochs', 'red'))
-    return valid_loss_min, no_improvement
+    return valid_loss_min, no_improvement, epoch_acc
 
 
-def plot_loss(loss_name: str, loss_array: set):
-    min_idx = loss_array.index(min(loss_array))
+def plot_array(plot_name: str, array: set, best_epoch: int):
+    min_idx = array.index(min(best_epoch))
     plt.plot(loss_array[:min_idx])
-    plt.ylabel(loss_name)
+    plt.ylabel(plot_name)
     plt.show()
 
 

@@ -2,23 +2,92 @@ import torch.nn as nn
 import torchvision.models as models
 from enum import Enum
 import torch.optim as optim
+from cifar10_models.vgg import densenet121 as cifar_densenet121, densenet169 as cifar_densenet169, densenet161 as cifar_densenet161, googlenet as cifar_googlenet, vgg11_bn as cifar_vgg11_bn, vgg13_bn as cifar_vgg13_bn, vgg16_bn as cifar_vgg16_bn, vgg19_bn as cifar_vgg19_bn, resnet18 as cifar_resnet18, resnet34 as cifar_resnet34, resnet50 as cifar_resnet50, resnet_orig as cifar_resnet_orig, mobilenet_v2 as cifar_mobilenet_v2, inception_v3 as cifar_inception_v3
 
 
-class TrainedModels(Enum):
-    resnet18 = 1
-    alexnet = 2
-    squeezenet1_0 = 3
-    vgg16 = 4
-    densenet161 = 5
-    inception_v3 = 6
-    googlenet = 7
-    shufflenet_v2_x1_0 = 8
-    mobilenet_v2 = 9
-    mobilenet_v3_large = 10
-    mobilenet_v3_small = 11
-    resnext50_32x4d = 12
-    wide_resnet50_2 = 13
-    mnasnet1_0 = 14
+class AutoName(Enum):
+    def _generate_next_value_(name, start, count, last_values):
+        return name
+
+
+class TrainedModels(AutoName):
+    '''
+    bn - bach normalization \n
+    https://pytorch.org/vision/stable/models.html#torchvision.models.alexnet
+    '''
+# region pytorch_models
+    alexnet = auto()
+# region vgg
+    vgg11 = auto()
+    vgg11_bn = auto()
+    vgg13 = auto()
+    vgg13_bn = auto()
+    vgg16 = auto()
+    vgg16_bn = auto()
+    vgg19 = auto()
+    vgg19_bn = auto()
+# endregion
+# region resnet
+    resnet18 = auto()
+    resnet34 = auto()
+    resnet50 = auto()
+    resnet152 = auto()
+# endregion
+# region squezenet
+    squeezenet1_0 = auto()
+    squeezenet1_1 = auto()
+# endregion
+# region densenet
+    densenet121 = auto()
+    densenet169 = auto()
+    densenet161 = auto()
+    densenet201 = auto()
+# endregion
+    inception_v3 = auto()
+    googlenet = auto()
+# region shufflenet
+    shufflenet_v2_x0_5 = auto()
+    shufflenet_v2_x1_0 = auto()
+    shufflenet_v2_x1_5 = auto()
+    shufflenet_v2_x2_0 = auto()
+# endregion
+# region mobilenet
+    mobilenet_v2 = auto()
+    mobilenet_v3_large = auto()
+    mobilenet_v3_small = auto()
+# endregion
+# region resnext
+    resnext50_32x4d = auto()
+    resnext101_32x8d = auto()
+# endregion
+# region wide_resnet
+    wide_resnet50_2 = auto()
+    wide_resnet101_2 = auto()
+# endregion
+# region mnasnet
+    mnasnet0_5 = auto()
+    mnasnet0_75 = auto()
+    mnasnet1_0 = auto()
+    mnasnet1_3 = auto()
+# endregion
+
+# endregion
+# region cifar_models
+    cifar_densenet121 = auto()
+    cifar_densenet169 = auto()
+    cifar_densenet161 = auto()
+    cifar_googlenet = auto()
+    cifar_vgg11_bn = auto()
+    cifar_vgg13_bn = auto()
+    cifar_vgg16_bn = auto()
+    cifar_vgg19_bn = auto()
+    cifar_resnet18 = auto()
+    cifar_resnet34 = auto()
+    cifar_resnet50 = auto()
+    cifar_resnet_orig = auto()
+    cifar_mobilenet_v2 = auto()
+    cifar_inception_v3 = auto()
+# endregion
 
 
 def get_model(model: TrainedModels, class_num: int, train_on_gpu=False):
@@ -26,53 +95,132 @@ def get_model(model: TrainedModels, class_num: int, train_on_gpu=False):
     selected_model = None
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
-
-    if model == TrainedModels.resnet18:
-        selected_model, input_size = get_resnet18(class_num)
-
+# region ifs
     if model == TrainedModels.alexnet:
         selected_model, input_size = get_alexnet(class_num)
-
-    if model == TrainedModels.squeezenet1_0:
-        selected_model, input_size = get_squeezenet1_0(class_num)
-
-    if model == TrainedModels.vgg16:
+# region vgg
+    elif model == TrainedModels.vgg11:
+        selected_model, input_size = get_vgg11(class_num)
+    elif model == TrainedModels.vgg11_bn:
+        selected_model, input_size = get_vgg11_bn(class_num)
+    elif model == TrainedModels.vgg13:
+        selected_model, input_size = get_vgg13(class_num)
+    elif model == TrainedModels.vgg13_bn:
+        selected_model, input_size = get_vgg13_bn(class_num)
+    elif model == TrainedModels.vgg16:
         selected_model, input_size = get_vgg16(class_num)
-
-    if model == TrainedModels.densenet161:
+    elif model == TrainedModels.vgg16_bn:
+        selected_model, input_size = get_vgg16_bn(class_num)
+    elif model == TrainedModels.vgg19:
+        selected_model, input_size = get_vgg19(class_num)
+    elif model == TrainedModels.vgg19_bn:
+        selected_model, input_size = get_vgg19_bn(class_num)
+# endregion
+# region resnet
+    elif model == TrainedModels.resnet18:
+        selected_model, input_size = get_resnet18(class_num)
+    elif model == TrainedModels.resnet34:
+        selected_model, input_size = get_resnet34(class_num)
+    elif model == TrainedModels.resnet50:
+        selected_model, input_size = get_resnet50(class_num)
+    elif model == TrainedModels.resnet152:
+        selected_model, input_size = get_resnet152(class_num)
+# endregion
+# region squezenet
+    elif model == TrainedModels.squeezenet1_0:
+        selected_model, input_size = get_squeezenet1_0(class_num)
+    elif model == TrainedModels.squeezenet1_1:
+        selected_model, input_size = get_squeezenet1_1(class_num)
+# endregion
+# region densenet
+    elif model == TrainedModels.densenet121:
+        selected_model, input_size = get_densenet121(class_num)
+    elif model == TrainedModels.densenet169:
+        selected_model, input_size = get_densenet169(class_num)
+    elif model == TrainedModels.densenet161:
         selected_model, input_size = get_densenet161(class_num)
-
-    if model == TrainedModels.inception_v3:
+    elif model == TrainedModels.densenet201:
+        selected_model, input_size = get_densenet201(class_num)
+# endregion
+    elif model == TrainedModels.inception_v3:
         selected_model, input_size = get_inception_v3(class_num)
-
-    if model == TrainedModels.googlenet:
+    elif model == TrainedModels.googlenet:
         selected_model, input_size = get_googlenet(class_num)
-
-    if model == TrainedModels.shufflenet_v2_x1_0:
+# region shuflenet
+    elif model == TrainedModels.shufflenet_v2_x0_5:
+        selected_model, input_size = get_shufflenet_v2_x0_5(class_num)
+    elif model == TrainedModels.shufflenet_v2_x1_0:
         selected_model, input_size = get_shufflenet_v2_x1_0(class_num)
-
-    if model == TrainedModels.mobilenet_v2:
+    elif model == TrainedModels.shufflenet_v2_x1_5:
+        selected_model, input_size = get_shufflenet_v2_x1_5(class_num)
+    elif model == TrainedModels.shufflenet_v2_x2_0:
+        selected_model, input_size = get_shufflenet_v2_x2_0(class_num)
+# endregion
+# region mobilenet
+    elif model == TrainedModels.mobilenet_v2:
         selected_model, input_size = get_mobilenet_v2(class_num)
-
-    if model == TrainedModels.mobilenet_v3_large:
+    elif model == TrainedModels.mobilenet_v3_large:
         selected_model, input_size = get_mobilenet_v3_large(class_num)
-
-    if model == TrainedModels.mobilenet_v3_small:
+    elif model == TrainedModels.mobilenet_v3_small:
         selected_model, input_size = get_mobilenet_v3_small(class_num)
-
-    if model == TrainedModels.resnext50_32x4d:
+# endregion
+# region resnext
+    elif model == TrainedModels.resnext50_32x4d:
         selected_model, input_size = get_resnext50_32x4d(class_num)
-
-    if model == TrainedModels.wide_resnet50_2:
+    elif model == TrainedModels.resnext101_32x8d:
+        selected_model, input_size = get_resnext101_32x8d(class_num)
+# endregion
+# region wide resnet
+    elif model == TrainedModels.wide_resnet50_2:
         selected_model, input_size = get_wide_resnet50_2(class_num)
-
-    if model == TrainedModels.mnasnet1_0:
+    elif model == TrainedModels.wide_resnet101_2:
+        selected_model, input_size = get_wide_resnet101_2(class_num)
+# endregion
+# region mnasnet
+    elif model == TrainedModels.mnasnet0_5:
+        selected_model, input_size = get_mnasnet0_5(class_num)
+    elif model == TrainedModels.mnasnet0_75:
+        selected_model, input_size = get_mnasnet0_75(class_num)
+    elif model == TrainedModels.mnasnet1_0:
         selected_model, input_size = get_mnasnet1_0(class_num)
-
+    elif model == TrainedModels.mnasnet1_3:
+        selected_model, input_size = get_mnasnet1_3(class_num)
+# endregion
+# endregion
+# region cifar
     if selected_model is None:
         mean = [0.4914, 0.4822, 0.4465]
         std = [0.2471, 0.2435, 0.2616]
 
+    elif model == TrainedModels.cifar_densenet121:
+        selected_model, input_size = get_cifar_densenet121(class_num)
+    elif model == TrainedModels.cifar_densenet169:
+        selected_model, input_size = get_cifar_densenet169(class_num)
+    elif model == TrainedModels.cifar_densenet161:
+        selected_model, input_size = get_cifar_densenet161(class_num)
+    elif model == TrainedModels.cifar_googlenet:
+        selected_model, input_size = get_cifar_googlenet(class_num)
+    elif model == TrainedModels.cifar_vgg11_bn:
+        selected_model, input_size = get_cifar_vgg11_bn(class_num)
+    elif model == TrainedModels.cifar_vgg13_bn:
+        selected_model, input_size = get_cifar_vgg13_bn(class_num)
+    elif model == TrainedModels.cifar_vgg16_bn:
+        selected_model, input_size = get_cifar_vgg16_bn(class_num)
+    elif model == TrainedModels.cifar_vgg19_bn:
+        selected_model, input_size = get_cifar_vgg19_bn(class_num)
+    elif model == TrainedModels.cifar_resnet18:
+        selected_model, input_size = get_cifar_resnet18(class_num)
+    elif model == TrainedModels.cifar_resnet34:
+        selected_model, input_size = get_cifar_resnet34(class_num)
+    elif model == TrainedModels.cifar_resnet50:
+        selected_model, input_size = get_cifar_resnet50(class_num)
+    elif model == TrainedModels.cifar_resnet_orig:
+        selected_model, input_size = get_cifar_resnet_orig(class_num)
+    elif model == TrainedModels.cifar_mobilenet_v2:
+        selected_model, input_size = get_cifar_mobilenet_v2(class_num)
+    elif model == TrainedModels.cifar_inception_v3:
+        selected_model, input_size = get_cifar_inception_v3(class_num)
+# endregion
     if train_on_gpu:
         selected_model.cuda()
 
@@ -80,15 +228,7 @@ def get_model(model: TrainedModels, class_num: int, train_on_gpu=False):
     return selected_model, input_size, mean, std, optimizer
 
 
-def get_resnet18(class_num):
-    model = models.resnet18(pretrained=True)
-    set_parameter_requires_grad(model)
-
-    n_inputs = model.fc.in_features
-    model.fc = nn.Linear(n_inputs, class_num)
-
-    return model, 224
-
+# region models
 
 def get_alexnet(class_num):
     model = models.alexnet(pretrained=True)
@@ -98,15 +238,46 @@ def get_alexnet(class_num):
     model.classifier[6] = nn.Linear(n_inputs, class_num)
 
     return model, 224
+# region vgg
 
 
-def get_squeezenet1_0(class_num):
-    model = models.squeezenet1_0(pretrained=True)
+def get_vgg11(class_num):
+    model = models.vgg11(pretrained=True)
     set_parameter_requires_grad(model)
 
-    model.classifier[1] = nn.Conv2d(
-        512, class_num, kernel_size=(1, 1), stride=(1, 1))
-    model.num_classes = class_num
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_vgg11_bn(class_num):
+    model = models.vgg11_bn(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_vgg13(class_num):
+    model = models.vgg13(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_vgg13_bn(class_num):
+    model = models.vgg13_bn(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
     return model, 224
 
 
@@ -120,6 +291,122 @@ def get_vgg16(class_num):
     return model, 224
 
 
+def get_vgg16_bn(class_num):
+    model = models.vgg16_bn(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_vgg19(class_num):
+    model = models.vgg19(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_vgg19_bn(class_num):
+    model = models.vgg19_bn(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+# endregion
+# region resnet
+
+
+def get_resnet18(class_num):
+    model = models.resnet18(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_resnet34(class_num):
+    model = models.resnet34(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_resnet50(class_num):
+    model = models.resnet50(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_resnet152(class_num):
+    model = models.resnet152(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+# endregion
+# region squezenet
+
+
+def get_squeezenet1_0(class_num):
+    model = models.squeezenet1_0(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    model.classifier[1] = nn.Conv2d(
+        512, class_num, kernel_size=(1, 1), stride=(1, 1))
+    model.num_classes = class_num
+    return model, 224
+
+
+def get_squeezenet1_1(class_num):
+    model = models.squeezenet1_1(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    model.classifier[1] = nn.Conv2d(
+        512, class_num, kernel_size=(1, 1), stride=(1, 1))
+    model.num_classes = class_num
+    return model, 224
+# endregion
+# region densenet
+
+
+def get_densenet121(class_num):
+    model = models.densenet121(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier.in_features
+    model.classifier = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_densenet169(class_num):
+    model = models.densenet169(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier.in_features
+    model.classifier = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
 def get_densenet161(class_num):
     model = models.densenet161(pretrained=True)
     set_parameter_requires_grad(model)
@@ -128,6 +415,17 @@ def get_densenet161(class_num):
     model.classifier = nn.Linear(n_inputs, class_num)
 
     return model, 224
+
+
+def get_densenet201(class_num):
+    model = models.densenet201(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier.in_features
+    model.classifier = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+# endregion
 
 
 def get_inception_v3(class_num):
@@ -152,6 +450,18 @@ def get_googlenet(class_num):
 
     return model, 224
 
+# region shufflenet
+
+
+def get_shufflenet_v2_x0_5(class_num):
+    model = models.shufflenet_v2_x0_5(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 244
+
 
 def get_shufflenet_v2_x1_0(class_num):
     model = models.shufflenet_v2_x1_0(pretrained=True)
@@ -161,6 +471,28 @@ def get_shufflenet_v2_x1_0(class_num):
     model.fc = nn.Linear(n_inputs, class_num)
 
     return model, 244
+
+
+def get_shufflenet_v2_x1_5(class_num):
+    model = models.shufflenet_v2_x1_5(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 244
+
+
+def get_shufflenet_v2_x2_0(class_num):
+    model = models.shufflenet_v2_x2_0(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 244
+# endregion
+# region mobilenet
 
 
 def get_mobilenet_v2(class_num):
@@ -190,7 +522,9 @@ def get_mobilenet_v3_small(class_num):
     n_inputs = model.classifier[3].in_features
     model.classifier[3] = nn.Linear(n_inputs, class_num)
 
-    return model, 244
+    return model, 224
+# endregion
+# region resnext
 
 
 def get_resnext50_32x4d(class_num):
@@ -203,12 +537,56 @@ def get_resnext50_32x4d(class_num):
     return model, 224
 
 
+def get_resnext101_32x8d(class_num):
+    model = models.resnext50_32x4d(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+# endregion
+# region wide resnet
+
+
 def get_wide_resnet50_2(class_num):
     model = models.wide_resnet50_2(pretrained=True)
     set_parameter_requires_grad(model)
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_wide_resnet101_2(class_num):
+    model = models.wide_resnet101_2(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+# endregion
+# region mnasnet
+
+
+def get_mnasnet0_5(class_num):
+    model = models.mnasnet0_5(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[1].in_features
+    model.classifier[1] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_mnasnet0_75(class_num):
+    model = models.mnasnet0_75(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[1].in_features
+    model.classifier[1] = nn.Linear(n_inputs, class_num)
 
     return model, 224
 
@@ -221,6 +599,164 @@ def get_mnasnet1_0(class_num):
     model.classifier[1] = nn.Linear(n_inputs, class_num)
 
     return model, 224
+
+
+def get_mnasnet1_3(class_num):
+    model = models.mnasnet1_3(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[1].in_features
+    model.classifier[1] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+# endregion
+# endregion
+
+# region cifar
+
+
+def get_cifar_densenet121(class_num):
+    model = cifar_densenet121(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier.in_features
+    model.classifier = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_densenet169(class_num):
+    model = cifar_densenet169(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier.in_features
+    model.classifier = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_densenet161(class_num):
+    model = cifar_densenet161(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier.in_features
+    model.classifier = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_googlenet(class_num):
+    model = cifar_googlenet(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_vgg11_bn(class_num):
+    model = cifar_vgg11_bn(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_vgg13_bn(class_num):
+    model = cifar_vgg13_bn(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_vgg16_bn(class_num):
+    model = cifar_vgg16_bn(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_vgg19_bn(class_num):
+    model = cifar_vgg19_bn(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[6].in_features
+    model.classifier[6] = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_resnet18(class_num):
+    model = cifar_resnet18(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_resnet34(class_num):
+    model = cifar_resnet34(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_resnet50(class_num):
+    model = cifar_resnet50(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_resnet_orig(class_num):
+    model = cifar_resnet_orig(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 224
+
+
+def get_cifar_mobilenet_v2(class_num):
+    model = cifar_mobilenet_v2(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    n_inputs = model.classifier[1].in_features
+    model.classifier[1] = nn.Linear(n_inputs, class_num)
+
+    return model, 244
+
+
+def get_cifar_inception_v3(class_num):
+    model = cifar_inception_v3(pretrained=True)
+    set_parameter_requires_grad(model)
+
+    # n_inputs = model.AuxLogits.fc.in_features
+    # model.AuxLogits.fc = nn.Linear(n_inputs, class_num)
+
+    n_inputs = model.fc.in_features
+    model.fc = nn.Linear(n_inputs, class_num)
+
+    return model, 299
+# endregion
 
 
 def set_parameter_requires_grad(model):
