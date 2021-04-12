@@ -219,7 +219,7 @@ def get_model(model: TrainedModels, class_num: int, train_on_gpu=False):
         mean = [0.4914, 0.4822, 0.4465]
         std = [0.2471, 0.2435, 0.2616]
 
-    elif model == TrainedModels.cifar_densenet121:
+    if model == TrainedModels.cifar_densenet121:
         selected_model, input_size = get_cifar_densenet121(class_num)
     elif model == TrainedModels.cifar_densenet169:
         selected_model, input_size = get_cifar_densenet169(class_num)
