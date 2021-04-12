@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torchvision.models as models
-from enum import Enum
+from enum import Enum, auto
 import torch.optim as optim
 from cifar10_models.densenet import densenet121 as cifar_densenet121, densenet169 as cifar_densenet169, densenet161 as cifar_densenet161
 from cifar10_models.googlenet import googlenet as cifar_googlenet
