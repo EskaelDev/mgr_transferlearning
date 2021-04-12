@@ -260,6 +260,7 @@ def get_model(model: TrainedModels, class_num: int, train_on_gpu=False):
 def get_alexnet(class_num):
     model = models.alexnet(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'alexnet'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -271,6 +272,7 @@ def get_alexnet(class_num):
 def get_vgg11(class_num):
     model = models.vgg11(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'vgg11'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -281,6 +283,7 @@ def get_vgg11(class_num):
 def get_vgg11_bn(class_num):
     model = models.vgg11_bn(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'vgg11_bn'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -291,6 +294,7 @@ def get_vgg11_bn(class_num):
 def get_vgg13(class_num):
     model = models.vgg13(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'vgg13'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -301,6 +305,7 @@ def get_vgg13(class_num):
 def get_vgg13_bn(class_num):
     model = models.vgg13_bn(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'vgg13_bn'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -311,6 +316,7 @@ def get_vgg13_bn(class_num):
 def get_vgg16(class_num):
     model = models.vgg16(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'vgg16'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -321,6 +327,7 @@ def get_vgg16(class_num):
 def get_vgg16_bn(class_num):
     model = models.vgg16_bn(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'vgg16_bn'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -331,6 +338,7 @@ def get_vgg16_bn(class_num):
 def get_vgg19(class_num):
     model = models.vgg19(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'vgg19'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -341,6 +349,7 @@ def get_vgg19(class_num):
 def get_vgg19_bn(class_num):
     model = models.vgg19_bn(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'vgg19_bn'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -353,6 +362,7 @@ def get_vgg19_bn(class_num):
 def get_resnet18(class_num):
     model = models.resnet18(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'resnet18'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -363,6 +373,7 @@ def get_resnet18(class_num):
 def get_resnet34(class_num):
     model = models.resnet34(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'resnet34'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -373,6 +384,7 @@ def get_resnet34(class_num):
 def get_resnet50(class_num):
     model = models.resnet50(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'resnet50'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -383,6 +395,7 @@ def get_resnet50(class_num):
 def get_resnet152(class_num):
     model = models.resnet152(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'resnet152'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -395,6 +408,7 @@ def get_resnet152(class_num):
 def get_squeezenet1_0(class_num):
     model = models.squeezenet1_0(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'squeezenet1_0'
 
     model.classifier[1] = nn.Conv2d(
         512, class_num, kernel_size=(1, 1), stride=(1, 1))
@@ -405,6 +419,7 @@ def get_squeezenet1_0(class_num):
 def get_squeezenet1_1(class_num):
     model = models.squeezenet1_1(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'squeezenet1_1'
 
     model.classifier[1] = nn.Conv2d(
         512, class_num, kernel_size=(1, 1), stride=(1, 1))
@@ -417,6 +432,7 @@ def get_squeezenet1_1(class_num):
 def get_densenet121(class_num):
     model = models.densenet121(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'densenet121'
 
     n_inputs = model.classifier.in_features
     model.classifier = nn.Linear(n_inputs, class_num)
@@ -427,6 +443,7 @@ def get_densenet121(class_num):
 def get_densenet169(class_num):
     model = models.densenet169(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'densenet169'
 
     n_inputs = model.classifier.in_features
     model.classifier = nn.Linear(n_inputs, class_num)
@@ -437,6 +454,7 @@ def get_densenet169(class_num):
 def get_densenet161(class_num):
     model = models.densenet161(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'densenet161'
 
     n_inputs = model.classifier.in_features
     model.classifier = nn.Linear(n_inputs, class_num)
@@ -447,6 +465,7 @@ def get_densenet161(class_num):
 def get_densenet201(class_num):
     model = models.densenet201(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'densenet201'
 
     n_inputs = model.classifier.in_features
     model.classifier = nn.Linear(n_inputs, class_num)
@@ -458,6 +477,7 @@ def get_densenet201(class_num):
 def get_inception_v3(class_num):
     model = models.inception_v3(pretrained=True, aux_logits=False)
     set_parameter_requires_grad(model)
+    model.name = 'inception_v3'
 
     # n_inputs = model.AuxLogits.fc.in_features
     # model.AuxLogits.fc = nn.Linear(n_inputs, class_num)
@@ -471,6 +491,7 @@ def get_inception_v3(class_num):
 def get_googlenet(class_num):
     model = models.googlenet(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'googlenet'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -483,6 +504,7 @@ def get_googlenet(class_num):
 def get_shufflenet_v2_x0_5(class_num):
     model = models.shufflenet_v2_x0_5(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'shufflenet_v2_x0_5'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -493,6 +515,7 @@ def get_shufflenet_v2_x0_5(class_num):
 def get_shufflenet_v2_x1_0(class_num):
     model = models.shufflenet_v2_x1_0(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'shufflenet_v2_x1_0'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -503,6 +526,7 @@ def get_shufflenet_v2_x1_0(class_num):
 def get_shufflenet_v2_x1_5(class_num):
     model = models.shufflenet_v2_x1_5(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'shufflenet_v2_x1_5'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -513,6 +537,7 @@ def get_shufflenet_v2_x1_5(class_num):
 def get_shufflenet_v2_x2_0(class_num):
     model = models.shufflenet_v2_x2_0(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'shufflenet_v2_x2_0'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -525,6 +550,7 @@ def get_shufflenet_v2_x2_0(class_num):
 def get_mobilenet_v2(class_num):
     model = models.mobilenet_v2(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'mobilenet_v2'
 
     n_inputs = model.classifier[1].in_features
     model.classifier[1] = nn.Linear(n_inputs, class_num)
@@ -535,6 +561,7 @@ def get_mobilenet_v2(class_num):
 def get_mobilenet_v3_large(class_num):
     model = models.mobilenet_v3_large(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'mobilenet_v3_large'
 
     n_inputs = model.classifier[3].in_features
     model.classifier[3] = nn.Linear(n_inputs, class_num)
@@ -545,6 +572,7 @@ def get_mobilenet_v3_large(class_num):
 def get_mobilenet_v3_small(class_num):
     model = models.mobilenet_v3_small(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'mobilenet_v3_small'
 
     n_inputs = model.classifier[3].in_features
     model.classifier[3] = nn.Linear(n_inputs, class_num)
@@ -557,6 +585,7 @@ def get_mobilenet_v3_small(class_num):
 def get_resnext50_32x4d(class_num):
     model = models.resnext50_32x4d(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'resnext50_32x4d'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -567,6 +596,7 @@ def get_resnext50_32x4d(class_num):
 def get_resnext101_32x8d(class_num):
     model = models.resnext50_32x4d(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'resnext50_32x4d'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -579,6 +609,7 @@ def get_resnext101_32x8d(class_num):
 def get_wide_resnet50_2(class_num):
     model = models.wide_resnet50_2(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'wide_resnet50_2'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -589,6 +620,7 @@ def get_wide_resnet50_2(class_num):
 def get_wide_resnet101_2(class_num):
     model = models.wide_resnet101_2(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'wide_resnet101_2'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -601,6 +633,7 @@ def get_wide_resnet101_2(class_num):
 def get_mnasnet0_5(class_num):
     model = models.mnasnet0_5(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'mnasnet0_5'
 
     n_inputs = model.classifier[1].in_features
     model.classifier[1] = nn.Linear(n_inputs, class_num)
@@ -611,6 +644,7 @@ def get_mnasnet0_5(class_num):
 def get_mnasnet0_75(class_num):
     model = models.mnasnet0_75(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'mnasnet0_75'
 
     n_inputs = model.classifier[1].in_features
     model.classifier[1] = nn.Linear(n_inputs, class_num)
@@ -621,6 +655,7 @@ def get_mnasnet0_75(class_num):
 def get_mnasnet1_0(class_num):
     model = models.mnasnet1_0(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'mnasnet1_0'
 
     n_inputs = model.classifier[1].in_features
     model.classifier[1] = nn.Linear(n_inputs, class_num)
@@ -631,6 +666,7 @@ def get_mnasnet1_0(class_num):
 def get_mnasnet1_3(class_num):
     model = models.mnasnet1_3(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'mnasnet1_3'
 
     n_inputs = model.classifier[1].in_features
     model.classifier[1] = nn.Linear(n_inputs, class_num)
@@ -645,6 +681,7 @@ def get_mnasnet1_3(class_num):
 def get_cifar_densenet121(class_num):
     model = cifar_densenet121(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_densenet121'
 
     n_inputs = model.classifier.in_features
     model.classifier = nn.Linear(n_inputs, class_num)
@@ -655,6 +692,7 @@ def get_cifar_densenet121(class_num):
 def get_cifar_densenet169(class_num):
     model = cifar_densenet169(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_densenet169'
 
     n_inputs = model.classifier.in_features
     model.classifier = nn.Linear(n_inputs, class_num)
@@ -665,6 +703,7 @@ def get_cifar_densenet169(class_num):
 def get_cifar_densenet161(class_num):
     model = cifar_densenet161(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_densenet161'
 
     n_inputs = model.classifier.in_features
     model.classifier = nn.Linear(n_inputs, class_num)
@@ -675,6 +714,7 @@ def get_cifar_densenet161(class_num):
 def get_cifar_googlenet(class_num):
     model = cifar_googlenet(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_googlenet'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -685,6 +725,7 @@ def get_cifar_googlenet(class_num):
 def get_cifar_vgg11_bn(class_num):
     model = cifar_vgg11_bn(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_vgg11_bn'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -695,6 +736,7 @@ def get_cifar_vgg11_bn(class_num):
 def get_cifar_vgg13_bn(class_num):
     model = cifar_vgg13_bn(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_vgg13_bn'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -705,6 +747,7 @@ def get_cifar_vgg13_bn(class_num):
 def get_cifar_vgg16_bn(class_num):
     model = cifar_vgg16_bn(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_vgg16_bn'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -715,6 +758,7 @@ def get_cifar_vgg16_bn(class_num):
 def get_cifar_vgg19_bn(class_num):
     model = cifar_vgg19_bn(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_vgg19_bn'
 
     n_inputs = model.classifier[6].in_features
     model.classifier[6] = nn.Linear(n_inputs, class_num)
@@ -725,6 +769,7 @@ def get_cifar_vgg19_bn(class_num):
 def get_cifar_resnet18(class_num):
     model = cifar_resnet18(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_resnet18'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -735,6 +780,7 @@ def get_cifar_resnet18(class_num):
 def get_cifar_resnet34(class_num):
     model = cifar_resnet34(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_resnet34'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -745,6 +791,7 @@ def get_cifar_resnet34(class_num):
 def get_cifar_resnet50(class_num):
     model = cifar_resnet50(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_resnet50'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -755,6 +802,7 @@ def get_cifar_resnet50(class_num):
 def get_cifar_resnet_orig(class_num):
     model = cifar_resnet_orig(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_resnet_orig'
 
     n_inputs = model.fc.in_features
     model.fc = nn.Linear(n_inputs, class_num)
@@ -765,6 +813,7 @@ def get_cifar_resnet_orig(class_num):
 def get_cifar_mobilenet_v2(class_num):
     model = cifar_mobilenet_v2(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_mobilenet_v2'
 
     n_inputs = model.classifier[1].in_features
     model.classifier[1] = nn.Linear(n_inputs, class_num)
@@ -775,6 +824,7 @@ def get_cifar_mobilenet_v2(class_num):
 def get_cifar_inception_v3(class_num):
     model = cifar_inception_v3(pretrained=True)
     set_parameter_requires_grad(model)
+    model.name = 'cifar_inception_v3'
 
     # n_inputs = model.AuxLogits.fc.in_features
     # model.AuxLogits.fc = nn.Linear(n_inputs, class_num)

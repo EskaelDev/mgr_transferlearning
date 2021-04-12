@@ -23,6 +23,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
 
         # early stopping
         if no_improvement >= netparams.max_no_improve_epochs:
+            best_epoch = epoch - netparams.max_no_improve_epochs
             break
 
         # keep track of training and validation loss
@@ -44,6 +45,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
         train_accuracy_array.append(train_acc)
 
         train_time_sum += train_end_time
+        
         ######################
         # evaluate the model #
         ######################
@@ -65,7 +67,7 @@ def train_loop(netparams: NetParams, no_improvement=0):
         valid_accuracy_array.append(valid_acc)
 
         if no_improvement <= 0:
-            best_epoch = epoch - netparams.max_no_improve_epochs
+            best_epoch = epoch
             print(colored('Last improvement', 'blue'))
             print(colored(f'Training took: {train_time_sum:.2f}', 'blue'))
             print(colored(f'Evaluation took: {train_time_sum:.2f}\n', 'blue'))
@@ -73,8 +75,10 @@ def train_loop(netparams: NetParams, no_improvement=0):
     end_time = time.time()
     print(
         f"🎓Total learning took {((end_time - start_time)/60):.0f}m {((end_time - start_time)%60):.0f}s")
-    print(f"🏋️‍♂️Training took {train_time_sum:.2f} seconds")
-    print(f"📑Evaluation took {eval_time_sum:.2f} seconds")
+    print(
+        f"🏋️‍♂️Training took {(train_time_sum/60):02.0f}:{(train_time_sum%60):02.3f}")
+    print(
+        f"📑Evaluation took {(eval_time_sum/60):02.0f}:{(eval_time_sum%60):02.3f}")
     return train_loss_array, valid_loss_array, train_accuracy_array, valid_accuracy_array, best_epoch
 
 
@@ -102,9 +106,9 @@ def train_model(netparams: NetParams,
         # update training loss
         train_loss_tmp += loss.item()
         train_loss += loss.item() * data.size(0)
-        
-        # if output.shape == target.data.shape:
-        correct_outputs += torch.sum(output == target.data)
+
+        if output.shape == target.data.shape:
+            correct_outputs += torch.sum(output == target.data)
 
         if batch_i % 20 == 19:    # print training loss every specified number of mini-batches
             print(
@@ -136,8 +140,8 @@ def evaluate_model(netparams: NetParams,
         loss = netparams.criterion(output, target)
         valid_loss += loss.item() * data.size(0)
 
-        # if output.shape == target.data.shape:
-        correct_outputs += torch.sum(output == target.data)
+        if output.shape == target.data.shape:
+            correct_outputs += torch.sum(output == target.data)
 
     train_loss = train_loss / len(netparams.train_loader.sampler)
     valid_loss = valid_loss / len(netparams.validation_loader.sampler)
@@ -161,8 +165,7 @@ def evaluate_model(netparams: NetParams,
 
 
 def plot_array(plot_name: str, array: set, best_epoch: int):
-    min_idx = array.index(min(best_epoch))
-    plt.plot(loss_array[:min_idx])
+    plt.plot(loss_array[:best_epoch])
     plt.ylabel(plot_name)
     plt.show()
 
