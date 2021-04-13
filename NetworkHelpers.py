@@ -226,6 +226,7 @@ def test_model(netparams: NetParams, working_ds: DatasetModel):
     print('\nTest Accuracy (Overall): %2d%% (%2d/%2d)' % (
         100. * np.sum(class_correct) / np.sum(class_total),
         np.sum(class_correct), np.sum(class_total)))
+    return 100. * np.sum(class_correct) / np.sum(class_total)
 
 
 def plot_test_results(netparams: NetParams, working_ds: DatasetModel):

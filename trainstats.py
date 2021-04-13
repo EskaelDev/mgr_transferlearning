@@ -5,6 +5,8 @@ import json
 
 
 class TrainStats:
+    accuracy = 0
+
     def __init__(self, model_name, train_loss_array, valid_loss_array, train_accuracy_array, valid_accuracy_array, best_epoch, total_time, train_time_sum, eval_time_sum):
         self.model_name = model_name
         self.train_loss_array = train_loss_array
@@ -17,7 +19,7 @@ class TrainStats:
         self.eval_time_sum = eval_time_sum
 
     def save(self, working_ds: DatasetModel):
-        now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        now = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
         dir_path = f'drive/MyDrive/results/{working_ds.name}_results/'
         file_name = f'{self.model_name}_{now}'
 
