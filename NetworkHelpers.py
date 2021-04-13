@@ -74,15 +74,15 @@ def train_loop(netparams: NetParams, no_improvement=0) -> TrainStats:
             print(colored(f'Training took: {train_time_sum:.2f}', 'blue'))
             print(colored(f'Evaluation took: {train_time_sum:.2f}\n', 'blue'))
 
-    end_time = time.time()
+    total_time = time.time() - start_time
     print(
-        f"🎓Total learning took {((end_time - start_time)/60):.0f}m {((end_time - start_time)%60):.0f}s")
+        f"🎓Total learning took {(total_time/60):02.0f}m {(total_time%60):.0f}s")
     print(
-        f"🏋️‍♂️Training took {(train_time_sum/60):02.0f}:{(train_time_sum%60):02.3f}")
+        f"🏋️‍♂️Training took       {(train_time_sum/60):02.0f}:{(train_time_sum%60):02.3f}")
     print(
-        f"📑Evaluation took {(eval_time_sum/60):02.0f}:{(eval_time_sum%60):02.3f}")
+        f"📑Evaluation took     {(eval_time_sum/60):02.0f}:{(eval_time_sum%60):02.3f}")
     reults = TrainStats(netparams.model.name, train_loss_array, valid_loss_array, train_accuracy_array,
-                        valid_accuracy_array, best_epoch, end_time - start_time, train_time_sum, eval_time_sum)
+                        valid_accuracy_array, best_epoch, total_time, train_time_sum, eval_time_sum)
     return reults
 
 
