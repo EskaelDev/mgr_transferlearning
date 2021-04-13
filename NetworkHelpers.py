@@ -145,7 +145,7 @@ def evaluate_model(netparams: NetParams,
         valid_loss += loss.item() * data.size(0)
 
         _, preds = torch.max(output, 1)
-        correct_outputs += torch.sum(output == target.data)
+        correct_outputs += torch.sum(preds == target.data)
 
     train_loss = train_loss / len(netparams.train_loader.sampler)
     valid_loss = valid_loss / len(netparams.validation_loader.sampler)
