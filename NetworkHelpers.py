@@ -6,6 +6,7 @@ import numpy as np
 import time
 from termcolor import colored
 from trainstats import TrainStats
+import torch.nn.functional as F
 
 
 def train_loop(netparams: NetParams, no_improvement=0) -> TrainStats:
@@ -110,9 +111,10 @@ def train_model(netparams: NetParams,
         train_loss_tmp += loss.item()
         train_loss += loss.item() * data.size(0)
 
-        print(f'epoch: {epoch} output.shape: {output.shape} target.data.shape: {target.data.shape}')
-        if output.shape == target.data.shape:
-            correct_outputs += torch.sum(output == target.data)
+        # print(
+        #     f'TRAIN epoch: {epoch} output.shape: {output.shape} target.data.shape: {target.data.shape}')
+        # if output.shape == target.data.shape:
+        correct_outputs += torch.sum(F.one_hot(output) == target.data)
 
         if batch_i % 20 == 19:    # print training loss every specified number of mini-batches
             print(
@@ -143,7 +145,8 @@ def evaluate_model(netparams: NetParams,
         output = netparams.model(data)
         loss = netparams.criterion(output, target)
         valid_loss += loss.item() * data.size(0)
-
+        print(
+            f'EVAL epoch: {epoch} output.shape: {output.shape} target.data.shape: {target.data.shape}')
         if output.shape == target.data.shape:
             correct_outputs += torch.sum(output == target.data)
 
