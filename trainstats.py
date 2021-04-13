@@ -16,7 +16,7 @@ class TrainStats:
         self.train_time_sum = train_time_sum
         self.eval_time_sum = eval_time_sum
 
-    def save(working_ds: DatasetModel):
+    def save(self, working_ds: DatasetModel):
         now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         dir_path = f'drive/MyDrive/results/{working_ds.name}_results/'
         file_name = f'{self.model_name}_{now}'
