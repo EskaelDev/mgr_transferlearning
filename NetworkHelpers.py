@@ -110,6 +110,7 @@ def train_model(netparams: NetParams,
         train_loss_tmp += loss.item()
         train_loss += loss.item() * data.size(0)
 
+        print(f'epoch: {epoch} output.shape: {output.shape} target.data.shape: {target.data.shape}')
         if output.shape == target.data.shape:
             correct_outputs += torch.sum(output == target.data)
 
