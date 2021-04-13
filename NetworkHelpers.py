@@ -81,9 +81,9 @@ def train_loop(netparams: NetParams, no_improvement=0) -> TrainStats:
         f"🏋️‍♂️Training took       {(train_time_sum/60):02.0f}:{(train_time_sum%60):02.3f}")
     print(
         f"📑Evaluation took     {(eval_time_sum/60):02.0f}:{(eval_time_sum%60):02.3f}")
-    reults = TrainStats(netparams.model.name, train_loss_array, valid_loss_array, train_accuracy_array,
+    results = TrainStats(netparams.model.name, train_loss_array, valid_loss_array, train_accuracy_array,
                         valid_accuracy_array, best_epoch, total_time, train_time_sum, eval_time_sum)
-    return reults
+    return results
 
 
 def train_model(netparams: NetParams,
