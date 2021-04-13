@@ -18,7 +18,7 @@ class TrainStats:
 
     def save(working_ds: DatasetModel):
         now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        dir_path = f'drive/MyDrive/dataset/{working_ds.name}_results/'
+        dir_path = f'drive/MyDrive/results/{working_ds.name}_results/'
         file_name = f'{self.model_name}_{now}'
 
         Path(dir_path).mkdir(parents=True, exist_ok=True)
