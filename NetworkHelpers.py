@@ -111,10 +111,12 @@ def train_model(netparams: NetParams,
         train_loss_tmp += loss.item()
         train_loss += loss.item() * data.size(0)
 
-        # print(
-        #     f'TRAIN epoch: {epoch} output.shape: {output.shape} target.data.shape: {target.data.shape}')
+        print(
+            f'TRAIN epoch: {epoch} output.shape: {output.shape} target.data.shape: {target.data.shape}')
+        print(output)
+        print(target.data)
         # if output.shape == target.data.shape:
-        correct_outputs += torch.sum(F.one_hot(output) == target.data)
+        # correct_outputs += torch.sum(F.one_hot(output) == target.data)
 
         if batch_i % 20 == 19:    # print training loss every specified number of mini-batches
             print(
