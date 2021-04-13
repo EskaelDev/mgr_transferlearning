@@ -1,10 +1,6 @@
 class DatasetModel:
-    # rel_path = ''
-    # drive_path = 'drive/MyDrive/dataset/'
-    # image_path = ''
-
-    def __init__(self, images_path: str, classes: []):
-        # self.image_path = image_path
+    def __init__(self, name: str, images_path: str, classes: []):
+        self.name = name
         self.classes = classes
         self.class_num = len(classes)
         self.path = 'drive/MyDrive/dataset/' + images_path
@@ -33,7 +29,8 @@ uc_classes = ['airplane',
               'sparseresidential',
               'tenniscourt']
 uc_classes.sort()
-uc_landuse_ds = DatasetModel('UCMerced_LandUse/Images', uc_classes)
+uc_landuse_ds = DatasetModel(
+    'UCMerced_LandUse', 'UCMerced_LandUse/Images', uc_classes)
 # endregion
 
 # region big_earth

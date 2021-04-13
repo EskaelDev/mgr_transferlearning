@@ -5,9 +5,10 @@ from datasetmodel import DatasetModel
 import numpy as np
 import time
 from termcolor import colored
+from trainstats import TrainStats
 
 
-def train_loop(netparams: NetParams, no_improvement=0):
+def train_loop(netparams: NetParams, no_improvement=0) -> TrainStats:
 
     start_time = time.time()
     valid_loss_min = np.Inf
@@ -79,7 +80,9 @@ def train_loop(netparams: NetParams, no_improvement=0):
         f"🏋️‍♂️Training took {(train_time_sum/60):02.0f}:{(train_time_sum%60):02.3f}")
     print(
         f"📑Evaluation took {(eval_time_sum/60):02.0f}:{(eval_time_sum%60):02.3f}")
-    return train_loss_array, valid_loss_array, train_accuracy_array, valid_accuracy_array, best_epoch
+    reults = TrainStats(netparams.model.name, train_loss_array, valid_loss_array, train_accuracy_array,
+                        valid_accuracy_array, best_epoch, end_time - start_time, train_time_sum, eval_time_sum)
+    return reults
 
 
 def train_model(netparams: NetParams,
@@ -145,7 +148,8 @@ def evaluate_model(netparams: NetParams,
 
     train_loss = train_loss / len(netparams.train_loader.sampler)
     valid_loss = valid_loss / len(netparams.validation_loader.sampler)
-    epoch_acc = float(correct_outputs) / len(netparams.validation_loader.dataset)
+    epoch_acc = float(correct_outputs) / \
+        len(netparams.validation_loader.dataset)
     # print training/validation statistics
     print(
         f'Epoch: {epoch}/{netparams.n_epochs} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
