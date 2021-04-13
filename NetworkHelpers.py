@@ -6,7 +6,7 @@ import numpy as np
 import time
 from termcolor import colored
 from trainstats import TrainStats
-import torch.nn.functional as F
+import math
 
 
 def train_loop(netparams: NetParams, no_improvement=0) -> TrainStats:
@@ -75,9 +75,8 @@ def train_loop(netparams: NetParams, no_improvement=0) -> TrainStats:
             print(colored(f'Evaluation took: {train_time_sum:.2f}\n', 'blue'))
 
     total_time = time.time() - start_time
-    print(total_time)
     print(
-        f"🎓Total learning took {(total_time/60):02.0f}m {(total_time%60):.0f}s")
+        f"🎓Total learning took {math.floor(total_time/60):02.0f}m {(total_time%60):.0f}s")
     print(
         f"🏋️‍♂️Training took       {(train_time_sum/60):02.0f}:{(train_time_sum%60):02.3f}")
     print(
