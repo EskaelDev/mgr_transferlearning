@@ -160,7 +160,7 @@ def evaluate_model(netparams: NetParams,
     if valid_loss <= valid_loss_min:
         print(colored(
             f'Validation loss decreased ({valid_loss_min:.6f} --> {valid_loss:.6f}).  Saving model ...', 'green'))
-        torch.save(netparams.model.state_dict(), f'{epoch:03d}model_cifar.pt')
+        torch.save(netparams.model.state_dict(), 'model_cifar.pt')
         valid_loss_min = valid_loss
         no_improvement = 0
     else:
