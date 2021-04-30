@@ -6,6 +6,8 @@ import json
 
 class TrainStats:
     accuracy = 0
+    k1 = 0
+    k5 = 0
 
     def __init__(self, model_name, train_loss_array, valid_loss_array, train_accuracy_array, valid_accuracy_array, best_epoch, total_time, train_time_sum, eval_time_sum):
         self.model_name = model_name
