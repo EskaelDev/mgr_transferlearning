@@ -1,12 +1,13 @@
-import matplotlib.pyplot as plt
-from netparams import NetParams
-import torch
 from datasetmodel import DatasetModel
-import numpy as np
-import time
+from netparams import NetParams
 from termcolor import colored
 from trainstats import TrainStats
+from typing import List
 import math
+import matplotlib.pyplot as plt
+import numpy as np
+import time
+import torch
 
 
 def train_loop(netparams: NetParams, no_improvement=0) -> TrainStats:
