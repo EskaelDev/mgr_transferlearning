@@ -232,7 +232,7 @@ def test_model(netparams: NetParams, working_ds: DatasetModel):
         100. * np.sum(class_correct) / np.sum(class_total),
         np.sum(class_correct), np.sum(class_total)))
     mean_1, mean_5 = mean_top_k(top_k)
-    return 100. * np.sum(class_correct) / np.sum(class_total), mean_1, mean_5
+    return 100. * np.sum(class_correct) / np.sum(class_total), mean_1.item(), mean_5.item()
 
 
 def plot_test_results(netparams: NetParams, working_ds: DatasetModel):
