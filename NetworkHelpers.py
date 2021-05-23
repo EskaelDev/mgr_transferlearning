@@ -219,11 +219,16 @@ def test_model(netparams: NetParams, working_ds: DatasetModel):
     test_loss = test_loss / len(netparams.test_loader.dataset)
     print('Test Loss: {:.6f}\n'.format(test_loss))
 
+    class_accuracy = {}
+    
     for i in range(working_ds.class_num):
         if class_total[i] > 0:
             print('Test Accuracy of %5s: %2d%% (%2d/%2d)' % (
                 working_ds.classes[i], 100 * class_correct[i] / class_total[i],
                 np.sum(class_correct[i]), np.sum(class_total[i])))
+
+            class_accuracy[working_ds.classes[i]]=np.sum(class_correct[i])
+
         else:
             print('Test Accuracy of %5s: N/A (no training examples)' %
                   (working_ds.classes[i]))
@@ -232,7 +237,7 @@ def test_model(netparams: NetParams, working_ds: DatasetModel):
         100. * np.sum(class_correct) / np.sum(class_total),
         np.sum(class_correct), np.sum(class_total)))
     mean_1, mean_5 = mean_top_k(top_k)
-    return 100. * np.sum(class_correct) / np.sum(class_total), mean_1.item(), mean_5.item()
+    return 100. * np.sum(class_correct) / np.sum(class_total), mean_1.item(), mean_5.item(), class_accuracy
 
 
 def plot_test_results(netparams: NetParams, working_ds: DatasetModel):

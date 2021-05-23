@@ -1,0 +1,1 @@
+{"model_name": "densenet121", "train_loss_array": [2.168411504358719], "valid_loss_array": [1.3607993425351184], "train_accuracy_array": [0.44549763033175355], "valid_accuracy_array": [0.7203791469194313], "best_epoch": 1, "total_time": 939.3054831027985, "train_time_sum": 734.2813100814819, "eval_time_sum": 205.02198433876038, "accuracy": 78.0, "k1": 
