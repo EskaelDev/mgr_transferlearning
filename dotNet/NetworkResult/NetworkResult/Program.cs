@@ -140,8 +140,8 @@ namespace NetworkResult
 
             await SaveToJsonFile(averageResults, "averageResults.json");
 
-            Console.WriteLine("Done!");
-            Console.ReadKey();
+            //Console.WriteLine("Done!");
+            //Console.ReadKey();
 
         }
 
@@ -175,17 +175,17 @@ namespace NetworkResult
                         break;
                     }
 
-                    if (minArr.Count < j+1)
+                    if (minArr.Count == j)
                     {
                         maxArr.Add(arrays[i][j]);
                         minArr.Add(arrays[i][j]);
-                        avgArr.Add(arrays[i][j] / arrays.Where(a => a.Count >= j).Count());
+                        avgArr.Add(arrays[i][j] / arrays.Where(a => a.Count > j).Count());
                     }
                     else
                     {
                         minArr[j] = arrays[i][j] < minArr[j] ? arrays[i][j] : minArr[j];
                         maxArr[j] = arrays[i][j] > maxArr[j] ? arrays[i][j] : maxArr[j];
-                        avgArr[j] += arrays[i][j] / arrays.Where(a => a.Count >= j).Count();
+                        avgArr[j] += arrays[i][j] / arrays.Where(a => a.Count > j).Count();
                     }
                 }
             }
