@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 import torch
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_score
 
 
 def train_loop(netparams: NetParams, no_improvement=0) -> TrainStats:
@@ -360,8 +360,11 @@ def confusion(netparams: NetParams, working_ds: DatasetModel):
         _, pred = torch.max(output, 1)
 
         confusion_m = confusion_matrix(pred.cpu(), target.cpu())
+        f1 = f1_score(target, pred)
+        precision = precision_score(target, pred)
+        recall = recall_score(target, pred,)
 
-    return confusion_m
+    return confusion_m, f1, precision, recall
 
 
 def loop_inplace_sum(confusions):
