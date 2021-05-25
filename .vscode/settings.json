@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\tomek\\AppData\\Local\\Microsoft\\WindowsApps\\python3.9.exe",
+    "python.pythonPath": "/bin/python3",
     "python.linting.pycodestyleEnabled": false,
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
