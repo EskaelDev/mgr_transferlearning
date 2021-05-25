@@ -344,10 +344,14 @@ def mean_top_k(top_k: []) -> tuple:
     return sum_1 / len(top_k), sum_5 / len(top_k)
 
 
-def confusion(netparams: NetParams, working_ds: DatasetModel):
+def recall_precision_fmeasure(netparams: NetParams, working_ds: DatasetModel):
     netparams.model.eval()  # eval mode
     if netparams.train_on_gpu:
         netparams.model.cuda()
+    i = 0
+    f1 = 0.0
+    precision = 0.0
+    recall = 0.0
 
     for data, target in netparams.confusion_loader:
 
@@ -359,13 +363,27 @@ def confusion(netparams: NetParams, working_ds: DatasetModel):
         # convert output probabilities to predicted class
         _, pred = torch.max(output, 1)
 
-        confusion_m = confusion_matrix(pred.cpu(), target.cpu())
-        f1 = f1_score(target, pred)
-        precision = precision_score(target, pred)
-        recall = recall_score(target, pred,)
+        f1 += f1_score(pred.cpu(), target.cpu())
+        precision += precision_score(pred.cpu(), target.cpu())
+        recall += recall_score(pred.cpu(), target.cpu())
+        i+=1
 
-    return confusion_m, f1, precision, recall
+    return f1, precision, recall
 
+
+def confusion(netparams: NetParams, working_ds: DatasetModel):
+    confusion_matrix = torch.zeros(working_ds.class_num, working_ds.class_num)
+    with torch.no_grad():
+        netparams.model.cpu()
+        for i, (inputs, classes) in enumerate(netparams.confusion_loader):
+            inputs = inputs.cpu()
+            classes = classes.cpu()
+            outputs = netparams.model(inputs)
+            _, preds = torch.max(outputs, 1)
+            for t, p in zip(classes.view(-1), preds.view(-1)):
+                    confusion_matrix[t.long(), p.long()] += 1
+
+    return confusion_matrix
 
 def loop_inplace_sum(confusions):
     # assumes len(arrlist) > 0
@@ -376,7 +394,7 @@ def loop_inplace_sum(confusions):
 
 
 def get_plot_confusion(confusion_array, working_ds: DatasetModel):
-    df_cm = pd.DataFrame(confusion_array, index=[i for i in working_ds.classes],
+    df_cm = pd.DataFrame(confusion_array.numpy(), index=[i for i in working_ds.classes],
                          columns=[i for i in working_ds.classes])
-    plt.figure(figsize=(10, 7))
+    plt.figure(figsize=(20, 15))
     return sn.heatmap(df_cm, annot=True, cmap='BuPu')
