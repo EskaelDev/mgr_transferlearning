@@ -1,22 +1,25 @@
 class NetParams:
     def __init__(self,
-                 model,
+                 batch_size,
+                 confusion_loader,
                  criterion,
-                 optimizer,
-                 n_epochs,
                  max_no_improve_epochs,
-                 train_on_gpu,
-                 train_loader,
+                 model,
+                 n_epochs,
+                 optimizer,
                  test_loader,
+                 train_loader,
+                 train_on_gpu,
                  validation_loader,
-                 batch_size):
-        self.model = model
-        self.criterion = criterion
-        self.optimizer = optimizer
-        self.n_epochs = n_epochs
-        self.max_no_improve_epochs = max_no_improve_epochs
-        self.train_on_gpu = train_on_gpu
-        self.train_loader = train_loader = train_loader
-        self.test_loader = test_loader = test_loader
-        self.validation_loader = validation_loader = validation_loader
+                 ):
         self.batch_size = batch_size = batch_size
+        self.confusion_loader = confusion_loader
+        self.criterion = criterion
+        self.max_no_improve_epochs = max_no_improve_epochs
+        self.model = model
+        self.n_epochs = n_epochs
+        self.optimizer = optimizer
+        self.test_loader = test_loader
+        self.train_loader = train_loader
+        self.train_on_gpu = train_on_gpu
+        self.validation_loader = validation_loader

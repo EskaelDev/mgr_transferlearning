@@ -1,3 +1,5 @@
+import seaborn as sn
+import pandas as pd
 from datasetmodel import DatasetModel
 from netparams import NetParams
 from termcolor import colored
@@ -8,6 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 import torch
+from sklearn.metrics import confusion_matrix
 
 
 def train_loop(netparams: NetParams, no_improvement=0) -> TrainStats:
@@ -220,14 +223,15 @@ def test_model(netparams: NetParams, working_ds: DatasetModel):
     print('Test Loss: {:.6f}\n'.format(test_loss))
 
     class_accuracy = {}
-    
+
     for i in range(working_ds.class_num):
         if class_total[i] > 0:
             print('Test Accuracy of %5s: %2d%% (%2d/%2d)' % (
                 working_ds.classes[i], 100 * class_correct[i] / class_total[i],
                 np.sum(class_correct[i]), np.sum(class_total[i])))
 
-            class_accuracy[working_ds.classes[i]]=np.sum(class_correct[i])
+            class_accuracy[working_ds.classes[i]
+                           ] = class_correct[i] / class_total[i]
 
         else:
             print('Test Accuracy of %5s: N/A (no training examples)' %
@@ -338,3 +342,38 @@ def mean_top_k(top_k: []) -> tuple:
         sum_5 += i[1]
 
     return sum_1 / len(top_k), sum_5 / len(top_k)
+
+
+def confusion(netparams: NetParams, working_ds: DatasetModel):
+    netparams.model.eval()  # eval mode
+    if netparams.train_on_gpu:
+        netparams.model.cuda()
+
+    for data, target in netparams.confusion_loader:
+
+        # move tensors to GPU if CUDA is available
+        if netparams.train_on_gpu:
+            data, target = data.cuda(), target.cuda()
+        # forward pass: compute predicted outputs by passing inputs to the model
+        output = netparams.model(data)
+        # convert output probabilities to predicted class
+        _, pred = torch.max(output, 1)
+
+        confusion_m = confusion_matrix(pred.cpu(), target.cpu())
+
+    return confusion_m
+
+
+def loop_inplace_sum(confusions):
+    # assumes len(arrlist) > 0
+    sum = confusions[0].copy()
+    for a in confusions[1:]:
+        sum += a
+    return sum/len(confusions)
+
+
+def get_plot_confusion(confusion_array, working_ds: DatasetModel):
+    df_cm = pd.DataFrame(confusion_array, index=[i for i in working_ds.classes],
+                         columns=[i for i in working_ds.classes])
+    plt.figure(figsize=(10, 7))
+    return sn.heatmap(df_cm, annot=True, cmap='GnBu')

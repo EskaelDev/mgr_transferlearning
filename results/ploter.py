@@ -1,19 +1,22 @@
 # %%
-from datetime import time
 import sys
 sys.path.insert(1, '../')
-import glob
-import numpy as np
-import matplotlib.pyplot as plt
-from json import JSONEncoder
-from collections import namedtuple
-import json
-from resultmodel import ResultModel, Properties
-from datasetmodel import uc_landuse_ds
-from datasetmodel import DatasetModel
-from trainstats import TrainStats
-import pandas as pd
+
+import seaborn as sn
 import pprint
+import pandas as pd
+from trainstats import TrainStats
+from datasetmodel import DatasetModel
+from datasetmodel import uc_landuse_ds
+from resultmodel import ResultModel, Properties
+import json
+from collections import namedtuple
+from json import JSONEncoder
+import matplotlib.pyplot as plt
+import numpy as np
+import glob
+from datetime import time
+
 
 class bcolors:
     HEADER = '\033[95m'
@@ -25,14 +28,17 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-    
+
+
 def customDecoder(objDict):
     return namedtuple('X', objDict.keys())(*objDict.values())
-    
+
+
 def plot_array(plot_name: str, array: set, best_epoch: int):
     plt.plot(array[:best_epoch])
     plt.ylabel(plot_name)
     plt.show()
+
 
 m_names = ['cifar_densenet121',
            'cifar_densenet161',
@@ -60,19 +66,21 @@ m_names = ['cifar_densenet121',
            'vgg16_bn',
            'vgg19_bn']
 m_arrays = ['TrainAccuracy',
-'TrainLoss',
-'ValidAccuracy',
-'ValidLoss',]
-# %%  
+            'TrainLoss',
+            'ValidAccuracy',
+            'ValidLoss', ]
+# %%
 
 with open("averageResults.json") as f:
-    averageResults = json.load(f)    
+    averageResults = json.load(f)
 
-# %%  
-def PlotResultArrays(results, index:int, arrayType:str, legendName:str):
+# %%
+
+
+def PlotResultArrays(results, index: int, arrayType: str, legendName: str):
     minArr = np.array(results[index][f"Min{arrayType}"])
-    maxArr =  np.array(results[index][f"Max{arrayType}"])
-    avgArr =  np.array(results[index][f"Avg{arrayType}"])
+    maxArr = np.array(results[index][f"Max{arrayType}"])
+    avgArr = np.array(results[index][f"Avg{arrayType}"])
     length = list(range(0, len(results[index][f"Min{arrayType}"])))
     modelName = results[index]['ModelName']
 
@@ -82,9 +90,9 @@ def PlotResultArrays(results, index:int, arrayType:str, legendName:str):
 
     fig, ax = plt.subplots()
 
-    ax.set_title(modelName + ' '+ arrayType)
+    ax.set_title(modelName + ' ' + arrayType)
     ax.fill_between(length, minArr, maxArr, alpha=0.3)
-    
+
     # ~ do odkomentowania jeżeli polski
     # ax.plot(length, avgArr, color=avgColor, linewidth=0.5, label=f'Średnie wartość {legendName}')
     # ax.plot(length, minArr, color=minColor, linewidth=0.3, label=f'Najniższe wartości {legendName}')
@@ -92,131 +100,140 @@ def PlotResultArrays(results, index:int, arrayType:str, legendName:str):
 
     ax.plot(length, avgArr, color=avgColor, linewidth=0.5, label=f'Avg')
     ax.plot(length, minArr, color=minColor, linewidth=0.3, label=f'Min')
-    ax.plot(length, maxArr,color=maxColor, linewidth=0.3, label=f'Max')
+    ax.plot(length, maxArr, color=maxColor, linewidth=0.3, label=f'Max')
 
-    ax.axvline(x=results[index]["AvgBestEpoch"], ymin=0, ymax=1, color=avgColor, alpha=0.3)
-    ax.axvline(x=results[index]["MaxBestEpoch"], ymin=0, ymax=1, color=maxColor, alpha=0.3)
-    ax.axvline(x=results[index]["MinBestEpoch"], ymin=0, ymax=1, color=minColor, alpha=0.3)
+    ax.axvline(x=results[index]["AvgBestEpoch"], ymin=0,
+               ymax=1, color=avgColor, alpha=0.3)
+    ax.axvline(x=results[index]["MaxBestEpoch"], ymin=0,
+               ymax=1, color=maxColor, alpha=0.3)
+    ax.axvline(x=results[index]["MinBestEpoch"], ymin=0,
+               ymax=1, color=minColor, alpha=0.3)
     # ~ do odkomentowania jeżeli polski
     # ax.set_xlabel(f'Najniższa epoka nauczenia: {results[index]["MinBestEpoch"]} Średnia epoka nauczenia: {results[index]["AvgBestEpoch"]}\nNajwyższa epoka nauczenia: {results[index]["MaxBestEpoch"]} ')
-    ax.set_xlabel(f'Min epoch: {results[index]["MinBestEpoch"]}; Avg epoch: {results[index]["AvgBestEpoch"]}; Max epoch: {results[index]["MaxBestEpoch"]} ')
-    
+    ax.set_xlabel(
+        f'Min epoch: {results[index]["MinBestEpoch"]}; Avg epoch: {results[index]["AvgBestEpoch"]}; Max epoch: {results[index]["MaxBestEpoch"]} ')
 
     ax.legend()
     fig.tight_layout()
-# %%  
+
+
+# ! plot błedu i acc
+# %%
 for i in range(0, len(averageResults)):
     for arrayType in m_arrays:
         PlotResultArrays(averageResults, i, arrayType, 'fukncji błędu')
-    
+
     if i == 3:
         break
 
 # %%
 # def SortByMetric(results, metric:str):
-#     metricDict = []  
+#     metricDict = []
 #     for i in range(0, len(averageResults)):
 #         metricDict.append([[averageResults[i]['ModelName']], averageResults[i]['Avg'+metric]])
-    
+
 #     return metricDict
 #     # return dict(sorted(metricDict.items(), key=lambda item: item[1]))
-    
+
 
 # # pprint.pprint(dictionary)
 # print(SortByMetric(averageResults, 'TotalTime'))
 # print()
 # print(SortByMetric(averageResults, 'Accuracy'))
 # %%
-metricDict = []  
+metricDict = []
 for i in range(0, len(averageResults)):
-    metricDict.append([averageResults[i]['ModelName'], averageResults[i]['AvgTotalTime'],averageResults[i]['AvgAccuracy']])
+    metricDict.append([averageResults[i]['ModelName'], averageResults[i]
+                       ['AvgTotalTime'], averageResults[i]['AvgAccuracy']])
 
 metricDict
+# ! Time | Accuracy
 # %%
-
 labels = ['cifar_densenet121',
-'cifar_densenet161',
-'cifar_densenet169',
-'cifar_googlenet',
-'cifar_mobilenet_v2',
-'cifar_resnet18',
-'cifar_resnet34',
-'cifar_resnet50',
-'cifar_vgg11_bn',
-'cifar_vgg13_bn',
-'cifar_vgg16_bn',
-'cifar_vgg19_bn',
-'densenet121',
-'densenet161',
-'densenet169',
-'googlenet',
-'inception_v3',
-'mobilenet_v2',
-'resnet18',
-'resnet34',
-'resnet50',
-'vgg11_bn',
-'vgg13_bn',
-'vgg16_bn',
-'vgg19_bn',]
+          'cifar_densenet161',
+          'cifar_densenet169',
+          'cifar_googlenet',
+          'cifar_mobilenet_v2',
+          'cifar_resnet18',
+          'cifar_resnet34',
+          'cifar_resnet50',
+          'cifar_vgg11_bn',
+          'cifar_vgg13_bn',
+          'cifar_vgg16_bn',
+          'cifar_vgg19_bn',
+          'densenet121',
+          'densenet161',
+          'densenet169',
+          'googlenet',
+          'inception_v3',
+          'mobilenet_v2',
+          'resnet18',
+          'resnet34',
+          'resnet50',
+          'vgg11_bn',
+          'vgg13_bn',
+          'vgg16_bn',
+          'vgg19_bn', ]
 timeNormalized = [0.297524952,
-0.653659876,
-0.288108779,
-1,
-0.258052831,
-0.091540821,
-0.060416227,
-0.226203424,
-0.160706849,
-0.090673421,
-0.125951657,
-0.173946699,
-0.265451556,
-0.570352765,
-0.146352367,
-0.125382537,
-0.230485928,
-0.099670543,
-0.073030908,
-0.084089612,
-0.130317146,
-0.141321976,
-0.125653598,
-0.112975012,
-0.104277939,]
+                  0.653659876,
+                  0.288108779,
+                  1,
+                  0.258052831,
+                  0.091540821,
+                  0.060416227,
+                  0.226203424,
+                  0.160706849,
+                  0.090673421,
+                  0.125951657,
+                  0.173946699,
+                  0.265451556,
+                  0.570352765,
+                  0.146352367,
+                  0.125382537,
+                  0.230485928,
+                  0.099670543,
+                  0.073030908,
+                  0.084089612,
+                  0.130317146,
+                  0.141321976,
+                  0.125653598,
+                  0.112975012,
+                  0.104277939, ]
 accuracyNormalized = [0.350694458,
-0.328125,
-0.348958333,
-0.305555563,
-0.342013875,
-0.434027792,
-0.369791667,
-0.364583333,
-0.315972229,
-0.321180563,
-0.258680563,
-0.192708333,
-0.96875,
-1,
-0.991319417,
-0.954861083,
-0.958333333,
-0.96875,
-0.953125,
-0.9375,
-0.96875,
-0.953125,
-0.960069417,
-0.928819417,
-0.923611083,]
+                      0.328125,
+                      0.348958333,
+                      0.305555563,
+                      0.342013875,
+                      0.434027792,
+                      0.369791667,
+                      0.364583333,
+                      0.315972229,
+                      0.321180563,
+                      0.258680563,
+                      0.192708333,
+                      0.96875,
+                      1,
+                      0.991319417,
+                      0.954861083,
+                      0.958333333,
+                      0.96875,
+                      0.953125,
+                      0.9375,
+                      0.96875,
+                      0.953125,
+                      0.960069417,
+                      0.928819417,
+                      0.923611083, ]
 
 x = np.arange(len(labels))  # the label locations
 width = 0.35  # the width of the bars
 
 fig, ax = plt.subplots(figsize=(15, 5), dpi=80)
 
-rects1 = ax.bar(x - width/2, timeNormalized, width, label='Czas znormalizowany')
-rects2 = ax.bar(x + width/2, accuracyNormalized, width, label='Celność znormalizowana')
+rects1 = ax.bar(x - width/2, timeNormalized,
+                width, label='Czas znormalizowany')
+rects2 = ax.bar(x + width/2, accuracyNormalized,
+                width, label='Celność znormalizowana')
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
 # ax.set_ylabel('Scores')
@@ -232,3 +249,20 @@ ax.legend()
 fig.tight_layout()
 
 plt.show()
+
+# ! confusion matrix
+# %%
+
+def loop_inplace_sum(confusions):
+    # assumes len(arrlist) > 0
+    sum = confusions[0].copy()
+    for a in confusions[1:]:
+        sum += a
+    return sum/len(confusions)
+
+
+def get_plot_confusion(confusion_array, working_ds: DatasetModel):
+    df_cm = pd.DataFrame(confusion_array, index=[i for i in working_ds.classes],
+                         columns=[i for i in working_ds.classes])
+    plt.figure(figsize=(10, 7))
+    return sn.heatmap(df_cm, annot=True, cmap='GnBu')
