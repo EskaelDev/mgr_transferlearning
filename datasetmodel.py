@@ -88,7 +88,7 @@ resisc_classes = ["airplane",
                  "wetland"]
 # endregion
 resisc_classes.sort()
-uc_landuse_ds = DatasetModel(
+resisc_ds = DatasetModel(
     'RESISC45', 'RESISC45/Images', resisc_classes)
 # region euro_sat
 
