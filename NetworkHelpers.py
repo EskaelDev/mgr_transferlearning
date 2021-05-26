@@ -118,9 +118,9 @@ def train_model(netparams: NetParams,
         _, preds = torch.max(output, 1)
         correct_outputs += torch.sum(preds == target.data)
 
-        if batch_i % 20 == 19:    # print training loss every specified number of mini-batches
+        if batch_i % netparams.train_loader.batch_size == netparams.train_loader.batch_size - 1:    # print training loss every specified number of mini-batches
             print(
-                f'Epoch {epoch}, Batch {batch_i + 1} loss: {(train_loss_tmp / 20):.6f}')
+                f'Epoch {epoch}, Batch {batch_i + 1} loss: {(train_loss_tmp / netparams.train_loader.batch_size):.6f}')
             train_loss_tmp = 0.0
 
     epoch_acc = float(correct_outputs) / len(netparams.train_loader.dataset)
