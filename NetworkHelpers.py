@@ -370,12 +370,13 @@ def recall_precision_fmeasure(netparams: NetParams, working_ds: DatasetModel):
         # convert output probabilities to predicted class
         _, pred = torch.max(output, 1)
 
-        f1 += f1_score(pred.cpu(), target.cpu())
-        precision += precision_score(pred.cpu(), target.cpu())
-        recall += recall_score(pred.cpu(), target.cpu())
+        f1 += f1_score(pred.cpu(), target.cpu(), average='weighted')
+        precision += precision_score(pred.cpu(),
+                                     target.cpu(), average='weighted')
+        recall += recall_score(pred.cpu(), target.cpu(), average='weighted')
         i += 1
 
-    return f1, precision, recall
+    return f1/i, precision/i, recall/i
 
 
 def confusion(netparams: NetParams, working_ds: DatasetModel):

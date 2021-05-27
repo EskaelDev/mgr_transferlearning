@@ -6,7 +6,8 @@ class DatasetModel:
         self.name = name
         self.classes = classes
         self.class_num = len(classes)
-        self.path = 'drive/MyDrive/dataset/' + images_path
+        # self.path = 'drive/MyDrive/dataset/' + images_path
+        self.path = '/content/dataset/' + images_path
 
 
 # region uc_landuse
