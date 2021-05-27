@@ -97,7 +97,9 @@ def train_model(netparams: NetParams,
     netparams.model.train()
     print("Training")
     correct_outputs = 0
+    train_start_time = time.time()
     for batch_i, (data, target) in enumerate(netparams.train_loader):
+
         # move tensors to GPU if CUDA is available
         if netparams.train_on_gpu:
             data, target = data.cuda(), target.cuda()
@@ -118,10 +120,15 @@ def train_model(netparams: NetParams,
         _, preds = torch.max(output, 1)
         correct_outputs += torch.sum(preds == target.data)
 
-        if batch_i % netparams.train_loader.batch_size == netparams.train_loader.batch_size - 1:    # print training loss every specified number of mini-batches
-            print(
-                f'Epoch {epoch}, Batch {batch_i + 1} loss: {(train_loss_tmp / netparams.train_loader.batch_size):.6f}')
+        # print training loss every specified number of mini-batches
+        if batch_i % netparams.train_loader.batch_size == netparams.train_loader.batch_size - 1:
+            print_loss = train_loss_tmp / netparams.train_loader.batch_size
+            print_images = (batch_i + 1) * netparams.train_loader.batch_size
+            print_images_len = len(netparams.train_loader.dataset)
+            print_images_percent = print_images / print_images_len * 100
+            print(f'Epoch {epoch} Batch {batch_i + 1} Loss {(print_loss):.6f} Images{print_images}/{print_images_len}({print_images_percent:.0f})%    Time:{time.time() - train_start_time}s')
             train_loss_tmp = 0.0
+            train_start_time = time.time()
 
     epoch_acc = float(correct_outputs) / len(netparams.train_loader.dataset)
     return train_loss, epoch_acc
@@ -366,7 +373,7 @@ def recall_precision_fmeasure(netparams: NetParams, working_ds: DatasetModel):
         f1 += f1_score(pred.cpu(), target.cpu())
         precision += precision_score(pred.cpu(), target.cpu())
         recall += recall_score(pred.cpu(), target.cpu())
-        i+=1
+        i += 1
 
     return f1, precision, recall
 
@@ -381,9 +388,10 @@ def confusion(netparams: NetParams, working_ds: DatasetModel):
             outputs = netparams.model(inputs)
             _, preds = torch.max(outputs, 1)
             for t, p in zip(classes.view(-1), preds.view(-1)):
-                    confusion_matrix[t.long(), p.long()] += 1
+                confusion_matrix[t.long(), p.long()] += 1
 
     return confusion_matrix
+
 
 def loop_inplace_sum(confusions):
     # assumes len(arrlist) > 0
