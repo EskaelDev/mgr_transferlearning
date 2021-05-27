@@ -403,7 +403,7 @@ def loop_inplace_sum(confusions):
 
 
 def get_plot_confusion(confusion_array, working_ds: DatasetModel):
-    df_cm = pd.DataFrame(confusion_array.numpy(), index=[i for i in working_ds.classes],
+    df_cm = pd.DataFrame(confusion_array, index=[i for i in working_ds.classes],
                          columns=[i for i in working_ds.classes])
     plt.figure(figsize=(20, 15))
     return sn.heatmap(df_cm, annot=True, cmap='BuPu')
