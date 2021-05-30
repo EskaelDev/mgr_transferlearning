@@ -44,5 +44,21 @@ namespace NetworkResult.Models
         
         [JsonPropertyName("eval_time_sum")]
         public float EvalTime{ get; set; }
+
+        [JsonPropertyName("class_accuracy")]
+        public Dictionary<string, float> ClassAccuracy { get; set; }
+
+        [JsonPropertyName("confusion")]
+        public List<List<float>> Confusion { get; set; }
+
+        [JsonPropertyName("f1")]
+        public float FMeasure { get; set; }
+
+        [JsonPropertyName("precision")]
+        public float Precision { get; set; }
+
+        [JsonPropertyName("recall")]
+        public float Recall { get; set; }
+
     }
 }

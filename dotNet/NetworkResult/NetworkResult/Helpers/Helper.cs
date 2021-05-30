@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NetworkResult.Helpers
 {
@@ -33,5 +29,10 @@ namespace NetworkResult.Helpers
                                                                "vgg13_bn",
                                                                "vgg16_bn",
                                                                "vgg19_bn"};
+
+        public static List<string> ResiscModels => new List<string>{"densenet169",
+                                                                    "mobilenet_v2",
+                                                                    "resnet18",
+                                                                    "vgg13_bn"};
     }
 }

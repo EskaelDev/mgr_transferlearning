@@ -10,6 +10,39 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Data\RESISC45\densenet169_2021-05-28 18-15-36.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\densenet169_2021-05-28 23-39-35.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\mobilenet_v2_2021-05-29 15-23-52.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\mobilenet_v2_2021-05-29 16-27-08.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\mobilenet_v2_2021-05-29 17-21-18.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\resnet18_2021-05-29 14-26-01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\resnet18_2021-05-29 14-35-27.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\resnet18_2021-05-29 17-03-14.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\vgg13_bn_2021-05-27 16-52-19.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\vgg13_bn_2021-05-28 14-48-24.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\RESISC45\vgg13_bn_2021-05-28 17-11-55.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\UCMerced_LandUse\cifar_densenet121_2021-04-14 12-24-01.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

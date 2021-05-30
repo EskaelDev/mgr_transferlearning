@@ -11,7 +11,6 @@ namespace NetworkResult.Models
         public string ModelName { get; set; }
 
 
-
         public int AvgBestEpoch { get; set; }
         public float AvgTotalTime { get; set; }
         public float AvgTrainTime { get; set; }
@@ -51,5 +50,27 @@ namespace NetworkResult.Models
         public List<float> AvgValidLoss { get; set; }
         public List<float> AvgTrainAccuracy { get; set; }
         public List<float> AvgValidAccuracy { get; set; }
+
+
+
+        public Dictionary<string, float> AvgClassAccuracy { get; set; }
+        public Dictionary<string, float> MaxClassAccuracy { get; set; }
+        public Dictionary<string, float> MinClassAccuracy { get; set; }
+
+        public List<List<float>> AvgConfusion { get; set; }
+        public List<List<float>> MaxConfusion { get; set; }
+        public List<List<float>> MinConfusion { get; set; }
+
+        public float AvgFMeasure { get; set; }
+        public float MaxFMeasure { get; set; }
+        public float MinFMeasure { get; set; }
+
+        public float AvgPrecision { get; set; }
+        public float MaxPrecision { get; set; }
+        public float MinPrecision { get; set; }
+
+        public float AvgRecall { get; set; }
+        public float MaxRecall { get; set; }
+        public float MinRecall { get; set; }
     }
 }
